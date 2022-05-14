@@ -22,10 +22,14 @@ export default function SignInBtn() {
                 let usersDoc = doc(db, 'users', res.user.uid)
                 let getUsersDoc = await getDoc(usersDoc)
                 console.log(getUsersDoc.data())
-                await setDoc(usersDoc, { name: res.user.displayName, email: res.user.email }, {merge:true})
+                await setDoc(usersDoc,
+                    {
+                        name: res.user.displayName,
+                        email: res.user.email
+
+                    }, { merge: true })
                 dispatch({ type: 'SET_NAME', payload: res.user.displayName })
                 localStorage.setItem('userUID', res.user.uid)
-
                 navigate('/home', { replace: true })
             })
             .catch(async (error) => {

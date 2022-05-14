@@ -5,6 +5,7 @@ import { collection, getDocs, doc, getDoc, setDoc, updateDoc, arrayUnion } from 
 import { useNavigate } from 'react-router-dom'
 
 import Loading from './Components/Loading'
+import Navbar from "./Components/Navbar";
 function App() {
 
   const [inputValue, setInputValue] = useState('')
@@ -33,6 +34,7 @@ function App() {
 
     getData()
     setInputValue('')
+    window.location.reload()
     navigate('/home', { replace: true })
   }
   const getUser = async () => {
@@ -56,7 +58,8 @@ function App() {
     <>
       {isLoading ? <Loading />
         :
-        <main className="w-screen h-screen flex flex-col gap-4 justify-center items-center">
+        <main className="w-screen h-screen flex flex-col justify-start gap-5 items-center">
+          <Navbar />
           <h2>{currentUser.name}</h2>
           <form onSubmit={handleSubmit}>
             <input type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
