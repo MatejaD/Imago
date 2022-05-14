@@ -9,20 +9,34 @@ import thunk from 'redux-thunk'
 import { reduxFirestore, getFirestore } from 'redux-firestore'
 import { reactReduxFirebase, getFirebase } from 'react-redux-firebase'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import LoginPage from './Auth/LoginPage';
 
 
 
 const reducer = (state, action) => {
 
-  if (action.type === 'SET_STATE') {
-    return { ...state, name: action.payload, cities: action.secondPayload }
+  if (action.type === 'SET_CITIES') {
+    return { ...state, cities: action.payload }
+  }
+
+  if (action.type === 'SET_NAME') {
+    return { ...state, name: action.payload }
+  }
+  if (action.type === 'SET_USER') {
+    return { ...state, currentUser: action.payload }
   }
 
   return state
 }
 const initalState = {
   name: '',
-  cities: [],
+  userUID: '',
+  currentUser: {
+    name: 'test',
+    email: 'tesst',
+    cities: ['test']
+
+  },
 }
 const store = createStore(reducer, initalState)
 
@@ -33,7 +47,9 @@ root.render(
     <BrowserRouter>
       <React.StrictMode>
         <Routes>
-          <Route path="/" element={<App />} />
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/home" element={<App />} />
+
         </Routes>
       </React.StrictMode>
     </BrowserRouter>
