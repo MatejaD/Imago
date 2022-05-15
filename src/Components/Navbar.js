@@ -2,13 +2,19 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import logo from './logo.jpg'
 import characterBig from './characterBig.png'
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { db } from "../Firebase/firebaseConfig";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 
 export default function Navbar() {
 
     const name = useSelector(state => state.currentUser.name)
 
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+    const avatarURL = useSelector(state => state.currentUser.avatarURL)
+    const coins = useSelector(state => state.coins)
 
     const links = [
         {
@@ -23,6 +29,17 @@ export default function Navbar() {
             name: 'Inventory', to: '/invenvtory', id: 3
         },
     ]
+
+    let docRefUsers = doc(db, 'users', localStorage.getItem('userUID'))
+
+    const increaseCoins = () => {
+        let amount = 1
+
+        dispatch({ type: 'INCREASE_COINS', payload: amount })
+        navigate('/home', { replace: false })
+
+    }
+
 
 
     return (
@@ -40,15 +57,18 @@ export default function Navbar() {
                 </ul>
                 <div className="h-full w-1/3 flex justify-end items-center gap-8  px-10">
                     <div className="flex w-16 justify-center items-center gap-2">
+                        <button
+                            onClick={() => increaseCoins()}
+                            className="text-3xl">+</button>
                         <span>Coins</span>
-                        <span>10.00$</span>
+                        <span>{coins}$</span>
                     </div>
                     <button className="cursor-pointer" onClick={() => navigate('/', { replace: true })}>Logout</button>
                 </div>
             </nav>
             <div className="w-full h-3/4 flex justify-start items-center gap-2 px-4 py-6">
                 <div className="w-36 h-full flex justify-center items-center bg-black bg-opacity-5 border-2 border-black   rounded-md">
-                    <img className="w-full" src={characterBig} alt="" />
+                    <img className="w-full" src={avatarURL === 'characterBig' ? characterBig : ''} alt="" />
                 </div>
                 <div className="h-full w-3/12 flex flex-col p-2 justify-center items-center gap-2 ">
 

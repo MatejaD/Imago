@@ -11,6 +11,7 @@ export default function SignInBtn() {
 
     const usersDB = collection(db, 'users')
     const currentUser = useSelector(state => state.currentUser)
+    const cities = useSelector(state => state.cities)
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -21,16 +22,21 @@ export default function SignInBtn() {
                 console.log(res.user)
                 let usersDoc = doc(db, 'users', res.user.uid)
                 let getUsersDoc = await getDoc(usersDoc)
-                console.log(getUsersDoc.data())
                 await setDoc(usersDoc,
                     {
                         name: res.user.displayName,
                         email: res.user.email
 
                     }, { merge: true })
-                dispatch({ type: 'SET_NAME', payload: res.user.displayName })
+                console.log(getUsersDoc.data())
+
                 localStorage.setItem('userUID', res.user.uid)
+                localStorage.setItem('cities', JSON.stringify(getUsersDoc.data().cities))
+                localStorage.setItem('coins', JSON.stringify(getUsersDoc.data().coins))
+
+                dispatch({ type: 'SET_NAME', payload: res.user.displayName })
                 navigate('/home', { replace: true })
+
             })
             .catch(async (error) => {
                 console.log(error)

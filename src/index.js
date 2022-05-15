@@ -19,6 +19,20 @@ const reducer = (state, action) => {
     return { ...state, cities: action.payload }
   }
 
+
+
+  if (action.type === 'ADD_CITY') {
+
+
+
+    // console.log(state.currentUser.cities)
+
+    console.log(state.cities)
+
+
+    return { ...state, cities: state.cities.concat(action.payload) }
+  }
+
   if (action.type === 'SET_NAME') {
     return { ...state, name: action.payload }
   }
@@ -26,15 +40,24 @@ const reducer = (state, action) => {
     return { ...state, currentUser: action.payload }
   }
 
+  if (action.type === 'SET_COINS') {
+    return { ...state, coins: action.payload }
+  }
+
+  if (action.type === 'INCREASE_COINS') {
+    return { ...state, coins: state.coins + action.payload }
+  }
+
   return state
 }
 const initalState = {
   name: '',
   userUID: '',
+  coins: 0,
+  cities: ['test'],
   currentUser: {
     name: 'test',
     email: 'tesst',
-    cities: ['test']
 
   },
 }
