@@ -36,8 +36,11 @@ export default function Navbar() {
         let amount = 1
 
         dispatch({ type: 'INCREASE_COINS', payload: amount })
-        navigate('/home', { replace: false })
+    }
 
+    const logout = () => {
+        window.location.reload()
+        navigate('/', { replace: true })
     }
 
 
@@ -63,7 +66,7 @@ export default function Navbar() {
                         <span>Coins</span>
                         <span>{coins}$</span>
                     </div>
-                    <button className="cursor-pointer" onClick={() => navigate('/', { replace: true })}>Logout</button>
+                    <button className="cursor-pointer" onClick={() => logout()}>Logout</button>
                 </div>
             </nav>
             <div className="w-full h-3/4 flex justify-start items-center gap-2 px-4 py-6">
