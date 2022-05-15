@@ -25,14 +25,26 @@ export default function SignInBtn() {
                 await setDoc(usersDoc,
                     {
                         name: res.user.displayName,
-                        email: res.user.email
-
+                        email: res.user.email,
                     }, { merge: true })
-                console.log(getUsersDoc.data())
 
                 localStorage.setItem('userUID', res.user.uid)
-                localStorage.setItem('cities', JSON.stringify(getUsersDoc.data().cities))
-                localStorage.setItem('coins', JSON.stringify(getUsersDoc.data().coins))
+                console.log(getUsersDoc.data())
+
+                if (getUsersDoc.data()) {
+                    console.log(
+                        'skr'
+                    )
+                    localStorage.setItem('cities', JSON.stringify(getUsersDoc.data().cities))
+                    localStorage.setItem('coins', JSON.stringify(getUsersDoc.data().coins))
+                }
+                else {
+
+                    localStorage.setItem('cities', JSON.stringify(['Hello!']))
+                    localStorage.setItem('coins', JSON.stringify(0))
+
+                }
+
 
                 dispatch({ type: 'SET_NAME', payload: res.user.displayName })
                 navigate('/home', { replace: true })

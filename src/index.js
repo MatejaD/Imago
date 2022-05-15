@@ -58,7 +58,6 @@ const initalState = {
   currentUser: {
     name: 'test',
     email: 'tesst',
-
   },
 }
 const store = createStore(reducer, initalState)
