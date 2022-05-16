@@ -28,6 +28,17 @@ export default function SignInBtn() {
                         email: res.user.email,
                     }, { merge: true })
 
+                if (!getUsersDoc.data()) {
+
+                    await setDoc(usersDoc,
+                        {
+                            name: res.user.displayName,
+                            email: res.user.email,
+                            cities: [],
+                            coins: 0
+                        }, { merge: true })
+                }
+
                 localStorage.setItem('userUID', res.user.uid)
                 console.log(getUsersDoc.data())
 
@@ -35,8 +46,8 @@ export default function SignInBtn() {
                     console.log(
                         'skr'
                     )
-                    localStorage.setItem('cities', JSON.stringify(getUsersDoc.data().cities))
-                    localStorage.setItem('coins', JSON.stringify(getUsersDoc.data().coins))
+                    // localStorage.setItem('cities', JSON.stringify(getUsersDoc.data().cities))
+                    // localStorage.setItem('coins', JSON.stringify(getUsersDoc.data().coins))
                 }
                 else {
 

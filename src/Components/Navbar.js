@@ -15,6 +15,8 @@ export default function Navbar() {
 
     const avatarURL = useSelector(state => state.currentUser.avatarURL)
     const coins = useSelector(state => state.coins)
+    let amount = 1
+
 
     const links = [
         {
@@ -32,15 +34,22 @@ export default function Navbar() {
 
     let docRefUsers = doc(db, 'users', localStorage.getItem('userUID'))
 
-    const increaseCoins = () => {
-        let amount = 1
+    const sendCoinsToDB = async () => {
+        let data = await getDoc(docRefUsers)
+        let dataCoins = data.data().coins
+        await updateDoc(docRefUsers, { coins: dataCoins + amount })
+    }
 
+    const increaseCoins = () => {
         dispatch({ type: 'INCREASE_COINS', payload: amount })
+        sendCoinsToDB()
+        navigate('/home', { replace: false })
+
     }
 
     const logout = () => {
-        window.location.reload()
         navigate('/', { replace: true })
+        window.location.reload()
     }
 
 

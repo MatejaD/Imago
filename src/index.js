@@ -22,14 +22,6 @@ const reducer = (state, action) => {
 
 
   if (action.type === 'ADD_CITY') {
-
-
-
-    // console.log(state.currentUser.cities)
-
-    console.log(state.cities)
-
-
     return { ...state, cities: state.cities.concat(action.payload) }
   }
 
@@ -54,7 +46,7 @@ const initalState = {
   name: '',
   userUID: '',
   coins: 0,
-  cities: ['test'],
+  cities: [],
   currentUser: {
     name: 'test',
     email: 'tesst',

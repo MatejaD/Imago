@@ -20,7 +20,6 @@ function App() {
   const dispatch = useDispatch()
   let docRefUsers = doc(db, 'users', localStorage.getItem('userUID'))
 
-  const projects = collection(db, 'users')
   const getData = async () => {
     let docRefCities = doc(db, 'users', localStorage.getItem('userUID'))
     const getCities = await getDoc(docRefCities)
@@ -37,33 +36,40 @@ function App() {
   const sendToDataBase = async () => {
     await setDoc(docRefUsers, { cities: JSON.parse(localStorage.getItem('cities')) }, { merge: true })
     localStorage.setItem('cities', JSON.stringify(cities))
-
   }
+
+  const sendInputToDB = async () => {
+    let data = await getDoc(docRefUsers)
+    let cities = data.data().cities
+    await updateDoc(docRefUsers, { cities: cities.concat(inputValue) })
+  }
+
+
 
   const sendCoinsToDb = async () => {
     await setDoc(docRefUsers, { coins: JSON.parse(localStorage.getItem('coins')) }, { merge: true })
     localStorage.setItem('coins', JSON.stringify(coins))
   }
 
-  useEffect(() => {
-    sendCoinsToDb()
-    console.log(JSON.parse(localStorage.getItem('coins')))
+  // useEffect(() => {
+  //   sendCoinsToDb()
+  //   console.log(JSON.parse(localStorage.getItem('coins')))
 
-  }, [coins])
+  // }, [coins])
 
   const handleSubmit = (e) => {
     e.preventDefault()
     dispatch({ type: 'ADD_CITY', payload: inputValue })
-
-    // getUser()
+    sendInputToDB()
     setInputValue('')
-    // window.location.reload()
     navigate('/home', { replace: false })
+
   }
 
-  useEffect(() => {
-    sendToDataBase()
-  }, [cities])
+  // useEffect(() => {
+  //   sendToDataBase()
+  //   console.log('send')
+  // }, [cities])
 
   const getUser = async () => {
     setIsLoading(true)
@@ -90,7 +96,7 @@ function App() {
     <>
       {isLoading ? <Loading />
         :
-        <main className="w-screen h-screen flex flex-col justify-start gap-5 items-center">
+        <main className="font-body w-screen h-screen flex flex-col justify-start gap-5 items-center">
           <Navbar />
           <h2>{currentUser.name}</h2>
           <button onClick={getData}>Add</button>
@@ -99,10 +105,13 @@ function App() {
           </form>
           <button onClick={getUser}>reload</button>
           <div className="w-64 h-48 border-black border-2 flex flex-col justify-center items-center">
-            {
+            {cities === undefined ? ""
+              :
               cities.map((city) => {
                 return <h2 key={city}>{city}</h2>
-              })}
+              })
+
+            }
           </div>
         </main>
 
