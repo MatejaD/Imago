@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from './logo.jpg'
 import characterBig from './characterBig.png'
@@ -37,15 +37,18 @@ export default function Navbar() {
     const sendCoinsToDB = async () => {
         let data = await getDoc(docRefUsers)
         let dataCoins = data.data().coins
-        await updateDoc(docRefUsers, { coins: dataCoins + amount })
+        await updateDoc(docRefUsers, { coins: coins })
     }
 
     const increaseCoins = () => {
         dispatch({ type: 'INCREASE_COINS', payload: amount })
-        sendCoinsToDB()
         navigate('/home', { replace: false })
 
     }
+
+    useEffect(() => {
+        sendCoinsToDB()
+    }, [coins])
 
     const logout = () => {
         navigate('/', { replace: true })
@@ -55,8 +58,8 @@ export default function Navbar() {
 
 
     return (
-        <nav className="w-full h-64 rounded-b-md  bg-blue-600 flex flex-col justify-start items-start">
-            <nav className="w-full h-1/4 flex justify-between items-center bg-blue-400">
+        <nav className="w-full h-64 rounded-b-md  bg-blue-700 flex flex-col justify-start items-start">
+            <nav className="w-full h-1/4 flex justify-between items-center bg-blue-500">
                 <div className="flex justify-start items-center h-full w-1/3 px-10">
                     <img className='rounded-full w-4 h-4 bg-blue-400' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFBGtT23Evq7dNpUdwP8fXnWY2DseIuYpnp-RFWSX1WAyhFpJc&s' alt="" />
                     <span className="px-4 text-xl font-bold">Imago</span>

@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 
 import Loading from './Components/Loading'
 import Navbar from "./Components/Navbar";
+import Container from "./Components/Container";
 function App() {
 
   const [inputValue, setInputValue] = useState('')
@@ -38,11 +39,7 @@ function App() {
     localStorage.setItem('cities', JSON.stringify(cities))
   }
 
-  const sendInputToDB = async () => {
-    let data = await getDoc(docRefUsers)
-    let cities = data.data().cities
-    await updateDoc(docRefUsers, { cities: cities.concat(inputValue) })
-  }
+ 
 
 
 
@@ -57,14 +54,7 @@ function App() {
 
   // }, [coins])
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    dispatch({ type: 'ADD_CITY', payload: inputValue })
-    sendInputToDB()
-    setInputValue('')
-    navigate('/home', { replace: false })
 
-  }
 
   // useEffect(() => {
   //   sendToDataBase()
@@ -96,23 +86,9 @@ function App() {
     <>
       {isLoading ? <Loading />
         :
-        <main className="font-body w-screen h-screen flex flex-col justify-start gap-5 items-center">
+        <main className="font-body w-screen min-h-screen flex flex-col justify-start gap-5 items-center bg-blue-300">
           <Navbar />
-          <h2>{currentUser.name}</h2>
-          <button onClick={getData}>Add</button>
-          <form onSubmit={handleSubmit}>
-            <input type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
-          </form>
-          <button onClick={getUser}>reload</button>
-          <div className="w-64 h-48 border-black border-2 flex flex-col justify-center items-center">
-            {cities === undefined ? ""
-              :
-              cities.map((city) => {
-                return <h2 key={city}>{city}</h2>
-              })
-
-            }
-          </div>
+          <Container />
         </main>
 
       }

@@ -26,6 +26,7 @@ export default function SignInBtn() {
                     {
                         name: res.user.displayName,
                         email: res.user.email,
+                        coins: getUsersDoc.data().coins
                     }, { merge: true })
 
                 if (!getUsersDoc.data()) {
