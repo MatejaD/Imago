@@ -6,6 +6,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { db } from "../Firebase/firebaseConfig";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 
+// Icons
+import { FaHeartbeat } from 'react-icons/fa'
+import { AiFillExperiment } from 'react-icons/ai'
+
 export default function Navbar() {
 
     const name = useSelector(state => state.currentUser.name)
@@ -15,6 +19,10 @@ export default function Navbar() {
 
     const avatarURL = useSelector(state => state.currentUser.avatarURL)
     const coins = useSelector(state => state.coins)
+
+    const health = useSelector(state => state.health)
+    const exp = useSelector(state => state.exp)
+
     let amount = 1
 
 
@@ -35,25 +43,29 @@ export default function Navbar() {
     let docRefUsers = doc(db, 'users', localStorage.getItem('userUID'))
 
     const sendCoinsToDB = async () => {
-        let data = await getDoc(docRefUsers)
-        let dataCoins = data.data().coins
-        await updateDoc(docRefUsers, { coins: coins })
+        await updateDoc(docRefUsers, { coins: coins + amount })
+        console.log(coins)
     }
 
     const increaseCoins = () => {
         dispatch({ type: 'INCREASE_COINS', payload: amount })
+        sendCoinsToDB()
+
         navigate('/home', { replace: false })
 
     }
 
-    useEffect(() => {
-        sendCoinsToDB()
-    }, [coins])
+
 
     const logout = () => {
         navigate('/', { replace: true })
         window.location.reload()
     }
+
+
+    const expBarWidth = (exp / 50) * 100
+    const healthBarWidth = (health / 50) * 100
+
 
 
 
@@ -93,26 +105,28 @@ export default function Navbar() {
                     </div>
 
                     <div className="w-full h-1/3 flex justify-center gap-4 items-center ">
-                        <span className="w-16 text-center">Heart</span>
-                        <div className="w-3/5 h-3/5 flex justify-start items-center rounded-md bg-slate-200   ">
-                            <div className="h-full w-1/2 pb-2 bg-red-500 rounded-md  ">
+                        <span className=" text-red-500 text-center text-3xl"><FaHeartbeat /></span>
+                        <div className="w-3/5 h-3/5 flex justify- items-center rounded-md bg-slate-200   ">
+                            <div
+                                style={{ width: `${healthBarWidth}%` }}
+                                className="h-full pb-2 bg-red-500 rounded-md  ">
 
                             </div>
                         </div>
-                        <span>25/50</span>
+                        <span>{health}/50</span>
                     </div>
 
 
 
 
                     <div className="w-full h-1/3 flex justify-center gap-4 items-center ">
-                        <span className="w-16 text-center">Exp</span>
+                        <span className=" text-center text-3xl text-yellow-500"><AiFillExperiment /></span>
                         <div className="w-3/5 h-3/5 flex justify-start items-center rounded-md bg-slate-200   ">
-                            <div className="h-full w-1/2 pb-2 bg-yellow-500  rounded-md  ">
+                            <div style={{ width: `${expBarWidth}%` }} className="h-full w-1/2 pb-2 bg-yellow-500  rounded-md  ">
 
                             </div>
                         </div>
-                        <span>25/50</span>
+                        <span>{exp}/50</span>
                     </div>
 
 

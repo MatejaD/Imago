@@ -11,7 +11,6 @@ export default function SignInBtn() {
 
     const usersDB = collection(db, 'users')
     const currentUser = useSelector(state => state.currentUser)
-    const cities = useSelector(state => state.cities)
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -26,7 +25,6 @@ export default function SignInBtn() {
                     {
                         name: res.user.displayName,
                         email: res.user.email,
-                        coins: getUsersDoc.data().coins
                     }, { merge: true })
 
                 if (!getUsersDoc.data()) {
@@ -35,7 +33,9 @@ export default function SignInBtn() {
                         {
                             name: res.user.displayName,
                             email: res.user.email,
-                            cities: [],
+                            Habits: [],
+                            Daily_Tasks: [],
+                            To_Do:[],
                             coins: 0
                         }, { merge: true })
                 }
@@ -52,7 +52,7 @@ export default function SignInBtn() {
                 }
                 else {
 
-                    localStorage.setItem('cities', JSON.stringify(['Hello!']))
+                    localStorage.setItem('habits', JSON.stringify(['Hello!']))
                     localStorage.setItem('coins', JSON.stringify(0))
 
                 }
