@@ -9,7 +9,7 @@ export default function Home() {
     const To_Do = useSelector(state => state.To_Do)
 
     return (
-        <div className="w-full min-h-screen flex justify-evenly items-start px-8 gap-8">
+        <div className="w-full min-h-screen flex justify-evenly items-start px-8 py-10 gap-8">
             <Habits
                 taskList={Habitss}
                 name='Habits'

@@ -59,7 +59,6 @@ export default function Habits({ taskList, name, placeholder }) {
         e.target.style.height = `${e.target.scrollHeight}px`;
     }
 
-    console.log(taskList)
 
     return (
         <form

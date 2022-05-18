@@ -35,8 +35,12 @@ export default function SignInBtn() {
                             email: res.user.email,
                             Habits: [],
                             Daily_Tasks: [],
-                            To_Do:[],
-                            coins: 0
+                            To_Do: [],
+                            coins: 0,
+                            health: 50,
+                            exp: 0,
+                            maxExp: 100,
+                            lvl: 1,
                         }, { merge: true })
                 }
 

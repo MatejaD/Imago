@@ -2,10 +2,11 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from './logo.jpg'
 import characterBig from './characterBig.png'
+import newCharacter from './Character_Shield.png'
 import { useDispatch, useSelector } from "react-redux";
-import { db } from "../Firebase/firebaseConfig";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
-
+import { db, auth } from "../Firebase/firebaseConfig";
+import { doc, getDoc, updateDoc, } from "firebase/firestore";
+import { signOut } from "firebase/auth";
 // Icons
 import { FaHeartbeat } from 'react-icons/fa'
 import { AiFillExperiment } from 'react-icons/ai'
@@ -19,9 +20,12 @@ export default function Navbar() {
 
     const avatarURL = useSelector(state => state.currentUser.avatarURL)
     const coins = useSelector(state => state.coins)
+    const lvl = useSelector(state => state.lvl)
 
     const health = useSelector(state => state.health)
     const exp = useSelector(state => state.exp)
+    const maxExp = useSelector(state => state.maxExp)
+
 
     let amount = 1
 
@@ -36,7 +40,7 @@ export default function Navbar() {
         },
 
         {
-            name: 'Inventory', to: '/invenvtory', id: 3
+            name: 'Inventory', to: '/inventory', id: 3
         },
     ]
 
@@ -50,6 +54,7 @@ export default function Navbar() {
     const increaseCoins = () => {
         dispatch({ type: 'INCREASE_COINS', payload: amount })
         sendCoinsToDB()
+        console.log(maxExp)
 
         navigate('/home', { replace: false })
 
@@ -58,12 +63,16 @@ export default function Navbar() {
 
 
     const logout = () => {
-        navigate('/', { replace: true })
-        window.location.reload()
+        signOut(auth).then(() => {
+            navigate('/', { replace: true })
+
+        }).catch((error) => {
+            console.log(error)
+        });
     }
 
 
-    const expBarWidth = (exp / 50) * 100
+    const expBarWidth = (exp / maxExp) * 100
     const healthBarWidth = (health / 50) * 100
 
 
@@ -78,7 +87,10 @@ export default function Navbar() {
                 </div>
                 <ul className="h-full w-1/3 flex justify-around items-center ">
                     {links.map((link) => {
-                        return (<li className="text-lg font-semibold cursor-pointer" key={link.id}>  {link.name} </li>)
+                        return (
+                            <li
+                                onClick={() => navigate(link.to, { replace: true })}
+                                className="text-lg font-semibold cursor-pointer" key={link.id}>  {link.name} </li>)
 
                     })}
                 </ul>
@@ -94,14 +106,15 @@ export default function Navbar() {
                 </div>
             </nav>
             <div className="w-full h-3/4 flex justify-start items-center gap-2 px-4 py-6">
-                <div className="w-36 h-full flex justify-center items-center bg-black bg-opacity-5 border-2 border-black   rounded-md">
-                    <img className="w-full" src={avatarURL === 'characterBig' ? characterBig : ''} alt="" />
+                <div className="w-36 h-full relative flex justify-center items-center bg-black bg-opacity-5 border-2 border-black   rounded-md">
+                    <img className="w-full" src={newCharacter} alt="" />
+                    {/* <img className="absolute top-5 right-3" src={shield2} alt="" /> */}
                 </div>
                 <div className="h-full w-3/12 flex flex-col p-2 justify-center items-center gap-2 ">
 
                     <div className="w-full h-1/3 flex  justify-center gap-4 items-start">
                         <h2 className="text-xl text-center  font-bold ">{name}</h2>
-                        <p className="text-xl text-center ">lvl 1</p>
+                        <p className="text-xl text-center ">lvl {lvl}</p>
                     </div>
 
                     <div className="w-full h-1/3 flex justify-center gap-4 items-center ">
@@ -126,7 +139,7 @@ export default function Navbar() {
 
                             </div>
                         </div>
-                        <span>{exp}/50</span>
+                        <span>{exp}/{maxExp}</span>
                     </div>
 
 
