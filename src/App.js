@@ -68,7 +68,6 @@ function App() {
 
   useEffect(() => {
     const death = async () => {
-
       await updateDoc(docRefUsers, { lvl: lvl, health: 50 })
       dispatch({ type: 'DEATH' })
     }

@@ -79,3 +79,13 @@ body{
     .item-container:hover .settings-icon{
         display: block;
     }
+
+    .item-text{
+        transform: translateY(100%);
+        transition-duration: 0.5s;
+    }
+
+    .item-container:hover .item-text{
+        transform: translateY(0);
+        transition-duration: 0.5s;
+    }

@@ -14,6 +14,8 @@ import Shop from './Pages/Shop';
 import Inventory from './Pages/Inventory';
 import Navbar from './Components/Navbar';
 
+import sword from './Components/BasicSwordBig.png'
+
 
 
 const reducer = (state, action) => {
@@ -162,7 +164,7 @@ const initalState = {
   Daily_Tasks: [],
   To_Do: [],
   shopItems: [
-    '1', '1', '2', '3'
+    '1', '1', '2', { img: sword, name: 'Basic Sword', desc: `It's not much, but its honest work.` }
   ],
   currentUser: {
     name: 'test',

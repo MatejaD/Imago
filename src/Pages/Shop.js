@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import sword from '../Components/BasicSwordBig.png'
 
 export default function Shop() {
 
@@ -22,10 +23,11 @@ export default function Shop() {
         {
             name: 'Swords',
             id: 3,
-            items: shopItems.filter((item) => item === '3')
+            items: (shopItems.filter((item) => item.name === 'Basic Sword'))
         },
     ]
 
+    console.log(marketElements)
 
     return (
         <div className="w-full min-h-full flex justify-start items-start ">
@@ -35,13 +37,25 @@ export default function Shop() {
                 <h2>Weapons</h2>
                 <h2>Helmets</h2>
             </div>
-            <div className="w-4/5 min-h-screen flex flex-col justify-start gap-4 items-start p-4 bg-slate-50 border-l-2  border-black">
+            <div className="w-10/12 mr-2 min-h-screen flex flex-col justify-start gap-4 items-start p-4 bg-blue-100 border-l-2 border-r-2 border-black">
                 <h1 className="text-3xl">Market</h1>
                 {marketElements.map((item) => {
+                    console.log(item.items[0].name)
                     return (
-                        <div key={item.id} className="flex relative flex-col justify-center items-start px-2 w-full h-64 bg-blue-700">
+                        <div key={item.id} className="flex relative cursor-pointer overflow-hidden flex-col justify-center bg-blue-100 items-start px-2 w-full h-64 ">
                             <h3 className="absolute left-4 top-1 text-xl">{item.name}</h3>
-                            <h5>{item.items}</h5>
+                            <div className="item-container w-2/12 h-3/5  relative overflow-hidden flex flex-col justify-center items-center">
+                                <img className=" " src={item.items[0].img} alt="" />
+                                <span className="absolute top-0 ">20$</span>
+
+                                <div className="item-text flex flex-col rounded-sm justify-around items-center w-11/12   h-full absolute bg-black bg-opacity-80   ">
+                                    <h2 className="w-full text-white text-lg text-center">{item.items[0].name}</h2>
+                                    <p className="text-sm w-full h-1/2 text-center text-white">{item.items[0].desc}</p>
+                                </div>
+
+
+                            </div>
+
                         </div>
                     )
                 })}

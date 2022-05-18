@@ -110,7 +110,6 @@ export default function Task({ item, taskList, name }) {
         flex justify-center items-start  
         bg-red-300 rounded-md
         hover:border shadow-md shadow-gray-500
-        hover:z-10
         ">
 
 

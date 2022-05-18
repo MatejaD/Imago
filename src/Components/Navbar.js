@@ -1,8 +1,11 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from './logo.jpg'
-import characterBig from './characterBig.png'
+import CharacterBasic from './CharacterBasic84.png'
+import CharacterBald from './CharacterBald.png'
 import newCharacter from './Character_Shield.png'
+import characterEmo from './CharacterEmo.png'
+import characterEmoBasicSword from './CharacterEmo-BasicSword.png'
 import { useDispatch, useSelector } from "react-redux";
 import { db, auth } from "../Firebase/firebaseConfig";
 import { doc, getDoc, updateDoc, } from "firebase/firestore";
@@ -10,6 +13,8 @@ import { signOut } from "firebase/auth";
 // Icons
 import { FaHeartbeat } from 'react-icons/fa'
 import { AiFillExperiment } from 'react-icons/ai'
+import { RiMoneyDollarBoxFill } from 'react-icons/ri'
+
 
 export default function Navbar() {
 
@@ -75,6 +80,8 @@ export default function Navbar() {
     const expBarWidth = (exp / maxExp) * 100
     const healthBarWidth = (health / 50) * 100
 
+    let blabla = characterEmoBasicSword
+
 
 
 
@@ -94,21 +101,17 @@ export default function Navbar() {
 
                     })}
                 </ul>
-                <div className="h-full w-1/3 flex justify-end items-center gap-8  px-10">
-                    <div className="flex w-16 justify-center items-center gap-2">
-                        <button
-                            onClick={() => increaseCoins()}
-                            className="text-3xl">+</button>
-                        <span>Coins</span>
-                        <span>{coins}$</span>
+                <div className="h-full w-1/3 flex justify-end items-center gap-12  px-10">
+                    <div className="flex w-16 justify-center items-center gap-1.5">
+                        <span className="text-yellow-400 text-4xl"><RiMoneyDollarBoxFill /></span>
+                        <span className="text-lg">{coins}</span>
                     </div>
                     <button className="cursor-pointer" onClick={() => logout()}>Logout</button>
                 </div>
             </nav>
             <div className="w-full h-3/4 flex justify-start items-center gap-2 px-4 py-6">
-                <div className="w-36 h-full relative flex justify-center items-center bg-black bg-opacity-5 border-2 border-black   rounded-md">
-                    <img className="w-full" src={newCharacter} alt="" />
-                    {/* <img className="absolute top-5 right-3" src={shield2} alt="" /> */}
+                <div className="w-36 h-full relative flex justify-center items-center bg-black bg-opacity-40 border-2 border-black   rounded-md">
+                    <img className="w-full" src={blabla} alt="" />
                 </div>
                 <div className="h-full w-3/12 flex flex-col p-2 justify-center items-center gap-2 ">
 
