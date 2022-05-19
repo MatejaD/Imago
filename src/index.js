@@ -15,6 +15,7 @@ import Inventory from './Pages/Inventory';
 import Navbar from './Components/Navbar';
 
 import sword from './Components/BasicSwordBig.png'
+import basicArmor from './Components/BasicArmorBig.png'
 
 
 
@@ -150,6 +151,70 @@ const reducer = (state, action) => {
     return { ...state, health: 50, lvl: state.lvl - 1 }
   }
 
+  if (action.type === 'OPEN_BUY_MODAL') {
+
+    let change = state.shopItems.map((item) => {
+      if (item.id === action.payload) {
+        return { ...item, buyModal: true }
+      }
+      else {
+        return item
+      }
+    })
+
+    return { ...state, shopItems: change }
+  }
+
+  if (action.type === 'CLOSE_BUY_MODAL') {
+
+    let change = state.shopItems.map((item) => {
+      return { ...item, buyModal: false }
+    })
+
+    console.log(state.inventory)
+
+    return { ...state, shopItems: change }
+  }
+
+  if (action.type === 'BUY_ITEM') {
+
+    let close_modal = state.shopItems.map((item) => {
+      return { ...item, buyModal: false }
+    })
+    let remove_bought_item = close_modal.filter((item) => item.id !== action.payload)
+
+    return { ...state, inventory: state.inventory.concat(action.item), shopItems: remove_bought_item }
+  }
+
+  if (action.type === 'SET_SHOP_ITEMS') {
+
+
+    let change = state.marketElements.map((item) => {
+      console.log(item)
+      if (item.name === 'Armor') {
+        return { ...item, items: action.payload.filter((value) => value.type === 'Armor') }
+      }
+      if (item.name === 'Swords') {
+        return { ...item, items: action.payload.filter((value) => value.type === 'Sword') }
+      }
+    })
+
+
+
+    console.log(action.payload)
+
+    return { ...state, marketElements: change }
+  }
+
+  if (action.type === 'SEARCH') {
+
+    let change = state.shopItems.filter(value => action.payload.test(value))
+
+    console.log(action.payload)
+
+    return { ...state, shopItems: change }
+  }
+
   return state
 }
 const initalState = {
@@ -164,12 +229,68 @@ const initalState = {
   Daily_Tasks: [],
   To_Do: [],
   shopItems: [
-    '1', '1', '2', { img: sword, name: 'Basic Sword', desc: `It's not much, but its honest work.` }
+    {
+      img: basicArmor,
+      name: `Peasent's armor`,
+      desc: 'At least it doesnt have any holes.',
+      price: 70,
+      buyModal: false,
+      id: 1,
+      value: 'Armor'
+
+
+    },
+    {
+      img: sword,
+      name: 'Basic Sword',
+      desc: `It's not much, but its honest work.`,
+      price: 45,
+      buyModal: false,
+      id: 2,
+      value: 'Sword'
+    }
   ],
   currentUser: {
     name: 'test',
     email: 'tesst',
   },
+  inventory: [
+
+  ],
+  marketElements: [{
+    name: 'Armor',
+    id: 11,
+    items: [
+      {
+        img: basicArmor,
+        name: `Peasent's armor`,
+        desc: 'At least it doesnt have any holes.',
+        price: 70,
+        buyModal: false,
+        id: 1,
+        value: 'Armor'
+
+
+      },
+    ]
+  },
+  {
+    name: 'Swords',
+    id: 33,
+    items: [
+      {
+        img: sword,
+        name: 'Basic Sword',
+        desc: `It's not much, but its honest work.`,
+        price: 45,
+        buyModal: false,
+        id: 2,
+        value: 'Sword'
+      }
+    ]
+
+  },]
+
 }
 const store = createStore(reducer, initalState)
 

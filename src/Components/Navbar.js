@@ -1,12 +1,16 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+// Images
 import logo from './logo.jpg'
 import CharacterBasic from './CharacterBasic84.png'
 import CharacterBald from './CharacterBald.png'
 import newCharacter from './Character_Shield.png'
 import characterEmo from './CharacterEmo.png'
 import characterEmoBasicSword from './CharacterEmo-BasicSword.png'
+import characterEmoBasicArmor from './CharacaterEmo-BasicArmor.png'
+// Redux
 import { useDispatch, useSelector } from "react-redux";
+// Firebase
 import { db, auth } from "../Firebase/firebaseConfig";
 import { doc, getDoc, updateDoc, } from "firebase/firestore";
 import { signOut } from "firebase/auth";
@@ -111,7 +115,7 @@ export default function Navbar() {
             </nav>
             <div className="w-full h-3/4 flex justify-start items-center gap-2 px-4 py-6">
                 <div className="w-36 h-full relative flex justify-center items-center bg-black bg-opacity-40 border-2 border-black   rounded-md">
-                    <img className="w-full" src={blabla} alt="" />
+                    <img className="w-full" src={characterEmoBasicArmor} alt="" />
                 </div>
                 <div className="h-full w-3/12 flex flex-col p-2 justify-center items-center gap-2 ">
 
