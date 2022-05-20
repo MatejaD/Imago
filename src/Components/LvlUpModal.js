@@ -9,7 +9,7 @@ export default function LvlUpModal({ setShowLvlUpModal }) {
     console.log(name)
     return (
         <>
-            <div className="w-2/6 h-2/3 flex flex-col text-xl p-4 gap-2 justify-evenly items-center fixed z-20  top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-slate-50">
+            <div className="w-2/6 h-2/3 flex flex-col text-xl p-4 gap-2 justify-evenly items-center fixed rounded-md z-20  top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-slate-50">
 
                 <div className="w-full h-1/3 flex flex-col gap-4 justify-center items-center">
                     <h2 className="text-3xl">Congradulations!</h2>

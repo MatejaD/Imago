@@ -81,7 +81,7 @@ body{
     }
 
     .item-text{
-        transform: translateY(100%);
+        transform: translateY(105%);
         transition-duration: 0.5s;
     }
 

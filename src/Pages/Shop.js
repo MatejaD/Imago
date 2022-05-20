@@ -25,13 +25,10 @@ export default function Shop() {
 
     const searchForItem = () => {
         let newRegExp = new RegExp(inputValue, 'gim')
-        let searchArray = (shopItems.map((item) => {
-            if ((nameArray.filter((value) => newRegExp.test(value))).includes(item.name)) {
-                return item
-            }
-        }))
+        let searchArray = ((shopItems.filter((value) => newRegExp.test(value.name))))
 
-        dispatch({ type: 'SET_SHOP_ITEMS', payload: searchArray.filter(Boolean) })
+        dispatch({ type: 'SET_SHOP_ITEMS', payload: searchArray })
+        console.log(marketElements)
     }
 
 
@@ -65,84 +62,92 @@ export default function Shop() {
                 <h1 className="text-3xl after:block ">Market</h1>
                 {marketElements.map((item, index) => {
                     return (
+                        item.items.length > 0
+                            ?
+                            <>
 
-                        <div key={item.id} className="flex relative   cursor-pointer   justify-start items-end bg-blue-100  w-full h-64 ">
-                            <h3 className="absolute left-4 top-1 text-2xl border-b-2 border-black">{item.name}</h3>
+                                <h3 className=" text-2xl border-b-2 border-black">{item.name}</h3>
+                                <div key={item.id} className="flex flex-wrap relative cursor-pointer justify-start items-end bg-blue-100 px-4 gap-y-4  w-full min-h-64 ">
 
-                            {item.items.map((singleItem, index) => {
-                                return (
-                                    <>
-                                        {singleItem.buyModal ?
+                                    {item.items.map((singleItem, index) => {
+                                        return (
                                             <>
-                                                <div
-                                                    key={singleItem.id}
-                                                    className="w-2/6 h-2/3 cursor-default rounded-md flex flex-col text-xl p-4 gap-2 justify-evenly items-center fixed z-20  top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-slate-50">
-                                                    <div className="w-full h-1/2 flex justify-center items-center flex-col">
-                                                        <button
-                                                            onClick={() => {
-                                                                dispatch({ type: 'CLOSE_BUY_MODAL' })
+                                                {singleItem.buyModal ?
+                                                    <>
+                                                        <div
+                                                            key={singleItem.id}
+                                                            className="w-2/6 h-2/3 cursor-default rounded-md flex flex-col text-xl p-4 gap-2 justify-evenly items-center fixed z-20  top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-slate-50">
+                                                            <div className="w-full h-1/2 flex justify-center items-center flex-col">
+                                                                <button
+                                                                    onClick={() => {
+                                                                        dispatch({ type: 'CLOSE_BUY_MODAL' })
 
-                                                            }}
-                                                            className="absolute w-1/4 rounded-md h-10 top-2 right-3 bg-red-500">Close</button>
-                                                        <img className="  w-1/2 rounded-md" src={singleItem.img} alt={singleItem.name} />
-                                                        <div className="flex flex-col w-1/2  justify-center items-center">
-                                                            <h2>{singleItem.name}</h2>
-                                                            <div className="flex justify-center items-center">
-                                                                <span className="text-lg">
-                                                                    {singleItem.price}
-                                                                </span>
-                                                                <span className="text-yellow-400 text-xl">
-                                                                    <RiMoneyDollarBoxFill />
-                                                                </span>
+                                                                    }}
+                                                                    className="absolute w-1/4 rounded-md h-10 top-2 right-3 bg-red-500">Close</button>
+                                                                <img className="  w-1/2 rounded-md" src={singleItem.img} alt={singleItem.name} />
+                                                                <div className="flex flex-col w-1/2  justify-center items-center">
+                                                                    <h2>{singleItem.name}</h2>
+                                                                    <div className="flex justify-center items-center">
+                                                                        <span className="text-lg">
+                                                                            {singleItem.price}
+                                                                        </span>
+                                                                        <span className="text-yellow-400 text-xl">
+                                                                            <RiMoneyDollarBoxFill />
+                                                                        </span>
+                                                                    </div>
+
+                                                                </div>
                                                             </div>
+                                                            <button
+                                                                onClick={() => buyItem(singleItem.id, singleItem)}
+                                                                className=" text-white w-1/2 h-12 bg-blue-600 rounded-md shadow-md shadow-blue-800">Buy</button>
 
                                                         </div>
-                                                    </div>
-                                                    <button
-                                                        onClick={() => buyItem(singleItem.id, singleItem)}
-                                                        className=" text-white w-1/2 h-12 bg-blue-600 rounded-md shadow-md shadow-blue-800">Buy</button>
 
-                                                </div>
+                                                        <div
+                                                            key={new Date().getMinutes()}
+                                                            onClick={() => dispatch({ type: 'CLOSE_BUY_MODAL' })}
+                                                            className="fixed w-screen z-10 top-0 left-0 h-screen bg-black bg-opacity-50">
 
+                                                        </div>
+                                                    </>
+                                                    :
+                                                    ""
+                                                }
                                                 <div
-                                                    key={new Date().getMinutes()}
-                                                    onClick={() => dispatch({ type: 'CLOSE_BUY_MODAL' })}
-                                                    className="fixed w-screen z-10 top-0 left-0 h-screen bg-black bg-opacity-50">
+                                                    key={singleItem.id}
+                                                    onClick={() => {
+                                                        dispatch({ type: 'OPEN_BUY_MODAL', payload: singleItem.id })
+                                                    }}
+                                                    className="item-container w-2/12 h-3/5   rounded-md relative overflow-hidden flex shrink-0 flex-col justify-center items-center">
 
+                                                    <img className="  w-full rounded-md" src={singleItem.img} alt={singleItem.name} />
+                                                    <div className="absolute top-0 flex text-lg justify-center gap-1 items-center w-full px-2 ">
+                                                        <span>{singleItem.price}</span>
+                                                        <span className="text-yellow-400 text-2xl "><RiMoneyDollarBoxFill /></span>
+                                                    </div>
+
+                                                    <div className="item-text flex flex-col rounded-sm justify-around items-center w-full px-4  h-full absolute bg-black bg-opacity-90   ">
+                                                        <h2 className="w-full text-white text-lg text-center">{singleItem.name}</h2>
+                                                        <p className="text-sm w-full h-1/2 text-center text-white">{singleItem.desc}</p>
+                                                    </div>
                                                 </div>
                                             </>
-                                            :
-                                            ""
-                                        }
-                                        <div
-                                            key={singleItem.id}
-                                            onClick={() => {
-                                                dispatch({ type: 'OPEN_BUY_MODAL', payload: singleItem.id })
-                                            }}
-                                            className="item-container w-2/12 h-3/5   rounded-md relative overflow-hidden flex flex-col justify-center items-center">
 
-                                            <img className="  w-full rounded-md" src={singleItem.img} alt={singleItem.name} />
-                                            <div className="absolute top-0 flex text-lg justify-center gap-1 items-center w-full px-2 ">
-                                                <span>{singleItem.price}</span>
-                                                <span className="text-yellow-400 text-2xl "><RiMoneyDollarBoxFill /></span>
-                                            </div>
-
-                                            <div className="item-text flex flex-col rounded-sm justify-around items-center w-full px-4  h-full absolute bg-black bg-opacity-90   ">
-                                                <h2 className="w-full text-white text-lg text-center">{singleItem.name}</h2>
-                                                <p className="text-sm w-full h-1/2 text-center text-white">{singleItem.desc}</p>
-                                            </div>
-                                        </div>
-                                    </>
-
-                                )
-                            })}
+                                        )
+                                    })}
 
 
-                        </div>
+                                </div>
+                            </>
+
+                            :
+                            ''
                     )
                 })}
 
             </div>
+
 
         </div >
     )

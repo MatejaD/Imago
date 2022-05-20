@@ -16,7 +16,7 @@ import Navbar from './Components/Navbar';
 
 import sword from './Components/BasicSwordBig.png'
 import basicArmor from './Components/BasicArmorBig.png'
-import { act } from 'react-dom/test-utils';
+
 
 
 
@@ -198,22 +198,19 @@ const reducer = (state, action) => {
         return item
       }
     })
-
-
-
-    console.log(change)
+    console.log(action.payload)
 
     return { ...state, marketElements: change }
   }
 
-  if (action.type === 'SEARCH') {
+  // if (action.type === 'SEARCH') {
 
-    let change = state.shopItems.filter(value => action.payload.test(value))
+  //   let change = state.shopItems.filter(value => action.payload.test(value))
 
-    console.log(action.payload)
+  //   console.log(action.payload)
 
-    return { ...state, shopItems: change }
-  }
+  //   return { ...state, shopItems: change }
+  // }
 
   return state
 }
@@ -238,7 +235,27 @@ const initalState = {
       id: 1,
       value: 'Armor'
 
+    },
 
+    {
+      img: basicArmor,
+      name: `Peasent's armor`,
+      desc: 'At least it doesnt have any holes.',
+      price: 70,
+      buyModal: false,
+      id: 1,
+      value: 'Armor'
+
+    },
+
+    {
+      img: sword,
+      name: 'Basic Sword',
+      desc: `It's not much, but its honest work.`,
+      price: 45,
+      buyModal: false,
+      id: 2,
+      value: 'Swords'
     },
     {
       img: sword,
@@ -248,7 +265,7 @@ const initalState = {
       buyModal: false,
       id: 2,
       value: 'Swords'
-    }
+    },
   ],
   currentUser: {
     name: 'test',
@@ -257,39 +274,59 @@ const initalState = {
   inventory: [
 
   ],
-  marketElements: [{
-    name: 'Armor',
-    id: 11,
-    items: [
-      {
-        img: basicArmor,
-        name: `Peasent's armor`,
-        desc: 'At least it doesnt have any holes.',
-        price: 70,
-        buyModal: false,
-        id: 1,
-        value: 'Armor'
+  marketElements: [
+    {
+      name: 'Armor',
+      id: 11,
+      items: [
+        {
+          img: basicArmor,
+          name: `Peasent's armor`,
+          desc: 'At least it doesnt have any holes.',
+          price: 70,
+          buyModal: false,
+          id: 1543532,
+          value: 'Armor'
+        },
 
 
-      },
-    ]
-  },
-  {
-    name: 'Swords',
-    id: 33,
-    items: [
-      {
-        img: sword,
-        name: 'Basic Sword',
-        desc: `It's not much, but its honest work.`,
-        price: 45,
-        buyModal: false,
-        id: 2,
-        value: 'Sword'
-      }
-    ]
+        {
+          img: basicArmor,
+          name: `Peasent's armor`,
+          desc: 'At least it doesnt have any holes.',
+          price: 70,
+          buyModal: false,
+          id: 12315,
+          value: 'Armor'
+        },
 
-  },]
+      ]
+    },
+    {
+      name: 'Swords',
+      id: 33,
+      items: [
+        {
+          img: sword,
+          name: 'Basic Sword',
+          desc: `It's not much, but its honest work.`,
+          price: 45,
+          buyModal: false,
+          id: 99,
+          value: 'Swords'
+        },
+        {
+          img: sword,
+          name: 'Basic Sword',
+          desc: `It's not much, but its honest work.`,
+          price: 45,
+          buyModal: false,
+          id: 2,
+          value: 'Swords'
+        },
+      ]
+
+    },]
 
 }
 const store = createStore(reducer, initalState)

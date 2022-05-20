@@ -22,12 +22,12 @@ import { RiMoneyDollarBoxFill } from 'react-icons/ri'
 
 export default function Navbar() {
 
-    const name = useSelector(state => state.currentUser.name)
+    const name = useSelector(state => state.name)
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
-    const avatarURL = useSelector(state => state.currentUser.avatarURL)
+    const avatarURL = useSelector(state => state.avatarURL)
     const coins = useSelector(state => state.coins)
     const lvl = useSelector(state => state.lvl)
 
@@ -60,15 +60,12 @@ export default function Navbar() {
         console.log(coins)
     }
 
-    const increaseCoins = () => {
-        dispatch({ type: 'INCREASE_COINS', payload: amount })
-        sendCoinsToDB()
-        console.log(maxExp)
-
-        navigate('/home', { replace: false })
-
-    }
-
+    // const increaseCoins = () => {
+    //     dispatch({ type: 'INCREASE_COINS', payload: amount })
+    //     sendCoinsToDB()
+    //     console.log(maxExp)
+    //     navigate('/home', { replace: false })
+    // }
 
 
     const logout = () => {
@@ -120,8 +117,8 @@ export default function Navbar() {
                 <div className="h-full w-3/12 flex flex-col p-2 justify-center items-center gap-2 ">
 
                     <div className="w-full h-1/3 flex  justify-center gap-4 items-start">
-                        <h2 className="text-xl text-center  font-bold ">{name}</h2>
-                        <p className="text-xl text-center ">lvl {lvl}</p>
+                        <h2 className="text-xl text-center text-black font-bold ">{name}</h2>
+                        <p className="text-lg text-center text-black ">lvl {lvl}</p>
                     </div>
 
                     <div className="w-full h-1/3 flex justify-center gap-4 items-center ">
@@ -133,7 +130,7 @@ export default function Navbar() {
 
                             </div>
                         </div>
-                        <span>{health}/50</span>
+                        <span className="w-1/5">{health}/50</span>
                     </div>
 
 
@@ -146,7 +143,7 @@ export default function Navbar() {
 
                             </div>
                         </div>
-                        <span>{exp}/{maxExp}</span>
+                        <span className=" w-1/5">{exp}/{maxExp}</span>
                     </div>
 
 
