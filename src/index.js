@@ -16,6 +16,7 @@ import Navbar from './Components/Navbar';
 
 import sword from './Components/BasicSwordBig.png'
 import basicArmor from './Components/BasicArmorBig.png'
+import { act } from 'react-dom/test-utils';
 
 
 
@@ -190,18 +191,17 @@ const reducer = (state, action) => {
 
 
     let change = state.marketElements.map((item) => {
-      console.log(item)
-      if (item.name === 'Armor') {
-        return { ...item, items: action.payload.filter((value) => value.type === 'Armor') }
+      if (action.payload.length > 0) {
+        return { ...item, items: action.payload.filter((value) => value.value === item.name) }
       }
-      if (item.name === 'Swords') {
-        return { ...item, items: action.payload.filter((value) => value.type === 'Sword') }
+      else {
+        return item
       }
     })
 
 
 
-    console.log(action.payload)
+    console.log(change)
 
     return { ...state, marketElements: change }
   }
@@ -247,7 +247,7 @@ const initalState = {
       price: 45,
       buyModal: false,
       id: 2,
-      value: 'Sword'
+      value: 'Swords'
     }
   ],
   currentUser: {

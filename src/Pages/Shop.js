@@ -4,6 +4,7 @@ import sword from '../Components/BasicSwordBig.png'
 
 // Icons
 import { RiMoneyDollarBoxFill } from 'react-icons/ri'
+import { BiSearchAlt } from 'react-icons/bi'
 
 export default function Shop() {
 
@@ -21,36 +22,17 @@ export default function Shop() {
         'Basic Sword',
         `Peasent's armor`,
     ]
-    const [b, setB] = useState(shopItems)
-
-
-    const [newArray, setNewArray] = useState([])
-
-
 
     const searchForItem = () => {
-        let newRegExp = new RegExp(inputValue, 'gi')
-
-        // dispatch({ type: 'SEARCH', payload: newRegExp })
-        let a = (shopItems.map((item) => {
+        let newRegExp = new RegExp(inputValue, 'gim')
+        let searchArray = (shopItems.map((item) => {
             if ((nameArray.filter((value) => newRegExp.test(value))).includes(item.name)) {
                 return item
             }
-
         }))
 
-        setB(a.filter(Boolean))
-
-        // dispatch({ type: 'SET_SHOP_ITEMS', payload: b })
-        console.log(b)
-        // console.log(nameArray.filter((value) => newRegExp.test(value)))
-        // console.log(a)
+        dispatch({ type: 'SET_SHOP_ITEMS', payload: searchArray.filter(Boolean) })
     }
-    // Creating array based on users input and displaying it
-
-    // useEffect(() => {
-    // }, [inputValue])
-
 
 
     const buyItem = (id, singleItem) => {
@@ -64,18 +46,20 @@ export default function Shop() {
         <div key={'main'} className="w-full min-h-full flex justify-start items-start ">
 
             <div key={'sidebar'} className="flex flex-col justify-start items-start p-8 w-1/5 gap-4 min-h-screen bg-blue-300">
-                <input
-                    onKeyUp={() => searchForItem()
+                <div className="w-full h-10 flex justify-between items-center px-2 rounded-md bg-white">
 
+                    <input
+                        onKeyUp={() => searchForItem()}
+                        value={inputValue}
+                        onChange={(e) => setInputValue(e.target.value)}
+                        className='w-full h-full outline-none'
+                        type="text"
+                        placeholder="Search..." />
+                    {!inputValue &&
+                        <span className="text-xl"><BiSearchAlt /></span>
                     }
-                    value={inputValue}
-                    onChange={(e) => setInputValue(e.target.value)}
-                    type="text"
-                    placeholder="Search..." />
-                {/* <button onClick={() => setMarketElements(startingShop)}>All</button>
-                <button onClick={() => sortItems('Armor')}>Armor</button>
-                <button onClick={() => sortItems('Swords')} > Weapons</button>
-                <button onClick={() => sortItems('Helmets')}> Helmets</button> */}
+                </div>
+
             </div >
             <div key={'container'} className="w-10/12 mr-2 min-h-screen flex flex-col justify-start gap-16 items-start p-4 bg-blue-100 border-l-2 border-r-2 border-black">
                 <h1 className="text-3xl after:block ">Market</h1>
