@@ -22,7 +22,7 @@ import { RiMoneyDollarBoxFill } from 'react-icons/ri'
 
 export default function Navbar() {
 
-    const name = useSelector(state => state.name)
+    const name = useSelector(state => state.currentUser.name)
 
     const navigate = useNavigate()
     const dispatch = useDispatch()

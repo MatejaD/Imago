@@ -236,6 +236,16 @@ const initalState = {
       value: 'Armor'
 
     },
+    {
+      img: basicArmor,
+      name: `Peasent's armor`,
+      desc: 'At least it doesnt have any holes.',
+      price: 70,
+      buyModal: false,
+      id: 1,
+      value: 'Armor'
+
+    },
 
     {
       img: basicArmor,
@@ -254,16 +264,25 @@ const initalState = {
       desc: `It's not much, but its honest work.`,
       price: 45,
       buyModal: false,
+      id: 1,
+      value: 'Swords'
+    },
+    {
+      img: sword,
+      name: 'Stone Sword',
+      desc: `It's not much, but its honest work.`,
+      price: 45,
+      buyModal: false,
       id: 2,
       value: 'Swords'
     },
     {
       img: sword,
-      name: 'Basic Sword',
+      name: 'Super sword',
       desc: `It's not much, but its honest work.`,
       price: 45,
       buyModal: false,
-      id: 2,
+      id: 5,
       value: 'Swords'
     },
   ],
@@ -271,61 +290,17 @@ const initalState = {
     name: 'test',
     email: 'tesst',
   },
-  inventory: [
-
-  ],
+  inventory: [],
   marketElements: [
     {
       name: 'Armor',
       id: 11,
-      items: [
-        {
-          img: basicArmor,
-          name: `Peasent's armor`,
-          desc: 'At least it doesnt have any holes.',
-          price: 70,
-          buyModal: false,
-          id: 1543532,
-          value: 'Armor'
-        },
-
-
-        {
-          img: basicArmor,
-          name: `Peasent's armor`,
-          desc: 'At least it doesnt have any holes.',
-          price: 70,
-          buyModal: false,
-          id: 12315,
-          value: 'Armor'
-        },
-
-      ]
+      items: []
     },
     {
       name: 'Swords',
       id: 33,
-      items: [
-        {
-          img: sword,
-          name: 'Basic Sword',
-          desc: `It's not much, but its honest work.`,
-          price: 45,
-          buyModal: false,
-          id: 99,
-          value: 'Swords'
-        },
-        {
-          img: sword,
-          name: 'Basic Sword',
-          desc: `It's not much, but its honest work.`,
-          price: 45,
-          buyModal: false,
-          id: 2,
-          value: 'Swords'
-        },
-      ]
-
+      items: []
     },]
 
 }

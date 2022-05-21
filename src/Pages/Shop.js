@@ -23,12 +23,17 @@ export default function Shop() {
         `Peasent's armor`,
     ]
 
+    useEffect(() => {
+        dispatch({ type: 'SET_SHOP_ITEMS', payload: shopItems })
+    }, [])
+
     const searchForItem = () => {
-        let newRegExp = new RegExp(inputValue, 'gim')
+        let newRegExp = new RegExp(inputValue, 'im')
         let searchArray = ((shopItems.filter((value) => newRegExp.test(value.name))))
 
+        console.log(searchArray)
+
         dispatch({ type: 'SET_SHOP_ITEMS', payload: searchArray })
-        console.log(marketElements)
     }
 
 
@@ -67,7 +72,7 @@ export default function Shop() {
                             <>
 
                                 <h3 className=" text-2xl border-b-2 border-black">{item.name}</h3>
-                                <div key={item.id} className="flex flex-wrap relative cursor-pointer justify-start items-end bg-blue-100 px-4 gap-y-4  w-full min-h-64 ">
+                                <div key={item.id} className="flex flex-wrap relative cursor-pointer justify-start items-end bg-blue-100 px-4 gap-y-4 gap-x-2  w-full min-h-64 ">
 
                                     {item.items.map((singleItem, index) => {
                                         return (
