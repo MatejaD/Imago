@@ -93,6 +93,15 @@ const reducer = (state, action) => {
     return { ...state, [action.name]: change }
   }
 
+  if (action.type === 'REMOVE_EDITING') {
+    let change = action.list.map((item) => {
+      return { ...item, isEditing: false }
+    })
+
+    return { ...state, [action.name]: change }
+  }
+
+
   if (action.type === 'INCREASE_COUNTER') {
 
     let change = action.list.map((item) => {
@@ -235,6 +244,20 @@ const reducer = (state, action) => {
       }
       else {
         return { ...item, openEditingMenu: false }
+      }
+    })
+
+    return { ...state, [action.name]: change }
+  }
+
+  if (action.type === 'SET_EDIT_NAME') {
+
+    let change = action.list.map((item) => {
+      if (item.id === action.id) {
+        return { ...item, name: action.payload, openEditingMenu: !item.openEditingMenu }
+      }
+      else {
+        return item
       }
     })
 

@@ -22,11 +22,9 @@ export default function Habits({ taskList, name, placeholder }) {
     let docRefUsers = doc(db, 'users', localStorage.getItem('userUID'))
 
     const sendInputToDB = async ({ item }) => {
-        let prop = taskList
-        let data = await getDoc(docRefUsers)
-
-
-        await updateDoc(docRefUsers, { [name]: taskList.concat(item) })
+        await updateDoc(docRefUsers, { 
+            [name]: taskList.concat(item)
+        })
 
 
     }
@@ -36,7 +34,7 @@ export default function Habits({ taskList, name, placeholder }) {
         if (inputValue) {
             let item = {
                 name: inputValue,
-                editName: editValue,
+                editName: inputValue,
                 id: new Date().getTime(),
                 isEditing: false,
                 openEditingMenu: false,
@@ -47,6 +45,7 @@ export default function Habits({ taskList, name, placeholder }) {
             }
             dispatch({ type: 'ADD_TO_LIST', list: taskList, name: name, payload: item })
             sendInputToDB({ item })
+            setEditValue(inputValue)
             setInputValue('')
             navigate('/home', { replace: false })
         }
@@ -70,7 +69,6 @@ export default function Habits({ taskList, name, placeholder }) {
             className="w-4/12 min-h-screen flex flex-col justify-start items-center gap-2 bg-slate-50  rounded-md bg-opacity-75 p-2 pb-6">
             <textarea
                 wrap="soft"
-
                 ref={inputRef}
                 rows={1}
                 onKeyDown={(e) => onEnterPress(e)}

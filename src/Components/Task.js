@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 // Redux
 import { useDispatch, useSelector } from "react-redux";
 // Icons
@@ -54,6 +54,10 @@ export default function Task({ item, taskList, name, editValue, setEditValue }) 
             icon: <RiDeleteBin4Fill />,
         },
     ]
+
+    useEffect(() => {
+        dispatch({ type: 'REMOVE_EDITING', name: name, list: taskList })
+    }, [])
 
     const IncreaseCounter = async (id) => {
         dispatch({ type: 'INCREASE_COUNTER', list: taskList, name: name, payload: id })
@@ -130,7 +134,8 @@ export default function Task({ item, taskList, name, editValue, setEditValue }) 
         })
     }
 
-    const editFunction = async (functionName, id) => {
+    const editFunction = async (functionName, id, itemName) => {
+        setEditValue(itemName)
         dispatch({ type: functionName, payload: id, list: taskList, name: name })
         await updateDoc(userDoc, {
             [name]: functionName === 'DELETE_TASK' ? taskList.filter((taskItem) => taskItem.id !== id) : taskList
@@ -138,10 +143,34 @@ export default function Task({ item, taskList, name, editValue, setEditValue }) 
     }
 
 
+    // const onEnterPress = (e) => {
+    //     if (e.keyCode == 13 && e.shiftKey == false) {
+    //         handleSubmit(e)
+    //     }
+
+    //     e.target.style.height = 'inherit';
+    //     e.target.style.height = `${e.target.scrollHeight}px`;
+    // }
+
+    const handleSubmit = async (id) => {
+        dispatch({ type: 'SET_EDIT_NAME', payload: editValue, id: id, name: name, list: taskList })
+        await updateDoc(userDoc, {
+            [name]: taskList.map((item) => {
+                if (item.id === id) {
+                    return { ...item, name: editValue, openEditingMenu: false }
+                }
+                else {
+                    return item
+                }
+            })
+        })
+    }
+
+
     return (
         <div
             onMouseLeave={() => dispatch({ type: 'REMOVE_EDIT', list: taskList, name: name })}
-            key={item.id}
+            // key={item.id}
             className={`
         item-container w-full 
         flex justify-center items-start  
@@ -163,19 +192,29 @@ export default function Task({ item, taskList, name, editValue, setEditValue }) 
                         <div
                             // onClick={() => dispatch({ type: 'EDIT_TASK', payload: item.id, name: name, list: taskList })}
                             className="fixed top-0 left-0 z-20 w-screen h-screen flex justify-center items-center bg-black bg-opacity-75">
-                            <form className="relative w-1/3 h-4/5 flex justify-between flex-col items-center  bg-slate-50 z-30">
+                            <div
+                                className="relative px-4 w-1/3 h-4/5 flex justify-between flex-col items-center  bg-slate-50 z-30">
                                 <div className="w-full h-12 flex justify-end items-start p-2 gap-4">
                                     <button
                                         type="button"
                                         onClick={() => dispatch({ type: 'EDIT_TASK', payload: item.id, name: name, list: taskList })}
                                         className="w-1/5 h-10 bg-red-500 rounded-md">Cancel</button>
-                                    <button type="submit" className="w-1/5 h-10 bg-blue-600 rounded-md">Submit</button>
+                                    <button
+                                        onClick={() => handleSubmit(item.id)}
+                                        type="submit"
+                                        className="w-1/5 h-10 bg-blue-600 rounded-md">Submit</button>
                                 </div>
 
-                                <input
-                                    type='text'
+                                <textarea
+                                    wrap="soft"
+                                    // ref={inputRef}
+                                    // onKeyDown={(e) => onEnterPress(e)}
+                                    // onKeyup={(e) => onEnterPress(e)}
+                                    rows={3}
                                     value={editValue}
                                     onChange={(e) => setEditValue(e.target.value)}
+                                    type="text"
+                                    className="text-field w-2/3 resize-none  overflow-hidden px-2 py-3 flex mb-2 rounded-sm bg-gray-300 outline-none placeholder:text-gray-400 "
                                 />
 
                                 <div>
@@ -183,13 +222,13 @@ export default function Task({ item, taskList, name, editValue, setEditValue }) 
                                 </div>
 
                                 <div className="w-full h-1/6 flex justify-center gap-2  items-center text-red-500">
-                                    <button>Delete this Task</button>
+                                    <button type="button">Delete this Task</button>
                                     <span className="text-xl">
                                         <RiDeleteBin4Fill />
                                     </span>
 
                                 </div>
-                            </form>
+                            </div>
 
                         </div>
                     </>
@@ -250,7 +289,7 @@ export default function Task({ item, taskList, name, editValue, setEditValue }) 
                                 <div
                                     key={editField.id}
                                     onClick={() => {
-                                        editFunction(editField.actionName, item.id)
+                                        editFunction(editField.actionName, item.id, item.name)
                                     }}
                                     className="h-1/4 w-full flex items-center justify-between gap-1 px-2 hover:cursor-pointer hover:bg-slate-400 duration-150 ease-linear" key={item.id}>
                                     <h2 className="">{editField.name}</h2>
