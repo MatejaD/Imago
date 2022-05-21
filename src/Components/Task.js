@@ -10,7 +10,7 @@ import { RiDeleteBin4Fill } from 'react-icons/ri'
 import { db } from "../Firebase/firebaseConfig";
 import { doc, updateDoc } from "firebase/firestore";
 
-export default function Task({ item, taskList, name }) {
+export default function Task({ item, taskList, name, editValue, setEditValue }) {
 
     const dispatch = useDispatch()
 
@@ -157,6 +157,43 @@ export default function Task({ item, taskList, name }) {
            h-32 px-2 py-4 w-1/5 
              rounded-l-md 
             `}>
+
+                {item.openEditingMenu ?
+                    <>
+                        <div
+                            // onClick={() => dispatch({ type: 'EDIT_TASK', payload: item.id, name: name, list: taskList })}
+                            className="fixed top-0 left-0 z-20 w-screen h-screen flex justify-center items-center bg-black bg-opacity-75">
+                            <form className="relative w-1/3 h-4/5 flex justify-between flex-col items-center  bg-slate-50 z-30">
+                                <div className="w-full h-12 flex justify-end items-start p-2 gap-4">
+                                    <button
+                                        type="button"
+                                        onClick={() => dispatch({ type: 'EDIT_TASK', payload: item.id, name: name, list: taskList })}
+                                        className="w-1/5 h-10 bg-red-500 rounded-md">Cancel</button>
+                                    <button type="submit" className="w-1/5 h-10 bg-blue-600 rounded-md">Submit</button>
+                                </div>
+
+                                <input
+                                    type='text'
+                                    value={editValue}
+                                    onChange={(e) => setEditValue(e.target.value)}
+                                />
+
+                                <div>
+                                    <h2>Calendar</h2>
+                                </div>
+
+                                <div className="w-full h-1/6 flex justify-center gap-2  items-center text-red-500">
+                                    <button>Delete this Task</button>
+                                    <span className="text-xl">
+                                        <RiDeleteBin4Fill />
+                                    </span>
+
+                                </div>
+                            </form>
+
+                        </div>
+                    </>
+                    : ""}
 
 
 

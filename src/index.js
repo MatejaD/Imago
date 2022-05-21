@@ -227,6 +227,20 @@ const reducer = (state, action) => {
 
   // EDITING TASK OPTIONS
 
+  if (action.type === 'EDIT_TASK') {
+
+    let change = action.list.map((item) => {
+      if (item.id === action.payload) {
+        return { ...item, openEditingMenu: !item.openEditingMenu }
+      }
+      else {
+        return { ...item, openEditingMenu: false }
+      }
+    })
+
+    return { ...state, [action.name]: change }
+  }
+
   if (action.type === 'DELETE_TASK') {
 
     let change = action.list.filter((item) => item.id !== action.payload)

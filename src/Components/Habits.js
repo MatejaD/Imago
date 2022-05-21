@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 export default function Habits({ taskList, name, placeholder }) {
 
     const [inputValue, setInputValue] = useState('')
+    const [editValue, setEditValue] = useState('')
     const inputRef = useRef()
 
     const dispatch = useDispatch()
@@ -35,8 +36,10 @@ export default function Habits({ taskList, name, placeholder }) {
         if (inputValue) {
             let item = {
                 name: inputValue,
+                editName: editValue,
                 id: new Date().getTime(),
                 isEditing: false,
+                openEditingMenu: false,
                 isChecked: false,
                 counter: 0,
                 increasedValue: 0,
@@ -81,7 +84,12 @@ export default function Habits({ taskList, name, placeholder }) {
 
             {taskList.length > 0 ?
                 taskList.map((item) => {
-                    return <Task key={item.id} item={item} taskList={taskList} name={name} />
+                    return <Task key={item.id}
+                        item={item}
+                        taskList={taskList}
+                        name={name}
+                        editValue={editValue}
+                        setEditValue={setEditValue} />
                 })
                 :
                 <div className="w-full h-64 flex justify-center items-center text-2xl">

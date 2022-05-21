@@ -122,8 +122,8 @@ export default function Shop() {
                                                         <span className="text-yellow-400 text-2xl "><RiMoneyDollarBoxFill /></span>
                                                     </div>
 
-                                                    <div className="item-text flex flex-col rounded-sm justify-around items-center w-full px-4  h-full absolute bg-black bg-opacity-90   ">
-                                                        <h2 className="w-full text-white text-lg text-center">{singleItem.name}</h2>
+                                                    <div className="item-text flex flex-col rounded-sm justify-start items-center gap-8 w-full px-4 py-2  h-full absolute bg-black bg-opacity-80   ">
+                                                        <h2 className="w-full text-white text-lg text-center ">{singleItem.name}</h2>
                                                         <p className="text-sm w-full h-1/2 text-center text-white">{singleItem.desc}</p>
                                                     </div>
                                                 </div>
