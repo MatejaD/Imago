@@ -157,7 +157,7 @@ export default function Task({ item, taskList, name, editValue, setEditValue }) 
         await updateDoc(userDoc, {
             [name]: taskList.map((item) => {
                 if (item.id === id) {
-                    return { ...item, name: editValue, openEditingMenu: false }
+                    return { ...item, name: editValue, openEditingMenu: false, isEditing: false }
                 }
                 else {
                     return item

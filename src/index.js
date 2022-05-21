@@ -240,7 +240,7 @@ const reducer = (state, action) => {
 
     let change = action.list.map((item) => {
       if (item.id === action.payload) {
-        return { ...item, openEditingMenu: !item.openEditingMenu }
+        return { ...item, openEditingMenu: !item.openEditingMenu, isEditing: false }
       }
       else {
         return { ...item, openEditingMenu: false }
