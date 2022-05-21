@@ -48,6 +48,7 @@ function App() {
     dispatch({ type: 'SET_MAX_EXP', payload: getUsersData.data().maxExp })
     dispatch({ type: 'SET_LVL', payload: getUsersData.data().lvl })
     dispatch({ type: 'SET_HEALTH', payload: getUsersData.data().health })
+    
 
 
     navigate('/home', { replace: false })

@@ -24,6 +24,8 @@ export default function Task({ item, taskList, name }) {
     const health = useSelector(state => state.health)
 
 
+    const userDoc = doc(db, 'users', localStorage.getItem('userUID'))
+
     const editTab = [
         {
             name: 'Edit',
@@ -49,11 +51,10 @@ export default function Task({ item, taskList, name }) {
             name: 'Delete',
             id: 4,
             actionName: 'DELETE_TASK',
-            icon: <RiDeleteBin4Fill />
+            icon: <RiDeleteBin4Fill />,
         },
     ]
 
-    const userDoc = doc(db, 'users', localStorage.getItem('userUID'))
     const IncreaseCounter = async (id) => {
         dispatch({ type: 'INCREASE_COUNTER', list: taskList, name: name, payload: id })
         dispatch({ type: 'INCREASE_COINS', payload: 3 })
@@ -101,20 +102,61 @@ export default function Task({ item, taskList, name }) {
         })
     }
 
+    const checkDaily_Task = async (id, currentItem) => {
+        dispatch({ type: 'CHECK_DAILY_TASK', payload: id })
+        if (currentItem.isChecked) {
+            dispatch({ type: 'DECREASE_COINS', payload: 10 })
+
+        }
+        else {
+            dispatch({ type: 'INCREASE_COINS', payload: 10 })
+        }
+
+        await updateDoc(userDoc, {
+            Daily_Tasks: taskList.map((item) => {
+                if (item.id === id) {
+                    return {
+                        ...item,
+                        isChecked: !item.isChecked,
+                        counter: item.isChecked ? item.counter - 1 : item.counter + 1,
+                    }
+                }
+                else {
+                    return item
+                }
+            }),
+            coins: currentItem.isChecked ? coins - 10 : coins + 10
+
+        })
+    }
+
+    const editFunction = async (functionName, id) => {
+        dispatch({ type: functionName, payload: id, list: taskList, name: name })
+        await updateDoc(userDoc, {
+            [name]: functionName === 'DELETE_TASK' ? taskList.filter((taskItem) => taskItem.id !== id) : taskList
+        })
+    }
+
+
     return (
         <div
             onMouseLeave={() => dispatch({ type: 'REMOVE_EDIT', list: taskList, name: name })}
             key={item.id}
-            className="
+            className={`
         item-container w-full 
         flex justify-center items-start  
-        bg-red-300 rounded-md
+         rounded-md
+         bg-red-300
         hover:border shadow-md shadow-gray-500
-        ">
+        duration-100 ease-linear
+        ${item.isChecked ? 'bg-slate-500' : ''}
+        `}>
 
-
-
-            <div className="flex justify-center items-center h-32 px-2 py-4 w-1/5 bg-red-300 rounded-md">
+            <div className={`
+            flex justify-center items-center
+           h-32 px-2 py-4 w-1/5 
+             rounded-l-md 
+            `}>
 
 
 
@@ -133,10 +175,13 @@ export default function Task({ item, taskList, name }) {
                             if (taskList === To_Do) {
                                 doneTo_Do(item.id)
                             }
+                            if (taskList === Daily_Tasks) {
+                                checkDaily_Task(item.id, item)
+                            }
                         }}
-                        className="check-box flex justify-center items-center h-10 w-10 text-blue-400 text-3xl border-gray-300 border rounded-md bg-black bg-opacity-30">
+                        className={`check-box flex justify-center items-center h-10 w-10 text-blue-400 text-3xl rounded-md bg-black bg-opacity-30 duration-100 ease-linear hover:bg-opacity-60 `}>
 
-                        <span className="check-mark">
+                        <span className={`check-mark ${item.isChecked ? 'text-slate-200 text-opacity-40' : 'text-green-500'}`}>
                             <AiOutlineCheck />
                         </span>
                     </button>
@@ -163,12 +208,17 @@ export default function Task({ item, taskList, name }) {
                     flex flex-col justify-evenly items-start
                     w-32 h-44 z-10 
                     border-2 border-black bg-slate-200">
-                        {editTab.map((item) => {
+                        {editTab.map((editField) => {
                             return (
-                                <div className="h-1/4 w-full flex items-center justify-between gap-1 px-2 hover:cursor-pointer" key={item.id}>
-                                    <h2 className="">{item.name}</h2>
+                                <div
+                                    key={editField.id}
+                                    onClick={() => {
+                                        editFunction(editField.actionName, item.id)
+                                    }}
+                                    className="h-1/4 w-full flex items-center justify-between gap-1 px-2 hover:cursor-pointer hover:bg-slate-400 duration-150 ease-linear" key={item.id}>
+                                    <h2 className="">{editField.name}</h2>
                                     <h2 className="text-xl">
-                                        {item.icon}
+                                        {editField.icon}
                                     </h2>
                                 </div>
                             )
@@ -179,7 +229,7 @@ export default function Task({ item, taskList, name }) {
 
 
                 {/* TEXT NAME */}
-                <h2 style={{ minHeight: '5.5rem' }} className="text-field flex justify-start items-start  min-h-full px-2 py-2 ">
+                <h2 style={{ minHeight: '5.5rem' }} className={`text-field flex justify-start items-start  min-h-full px-4 py-2 duration-100 ease-linear ${item.isChecked ? 'text-gray-500' : ''}`}>
                     {item.name}
                 </h2>
 
@@ -213,10 +263,11 @@ export default function Task({ item, taskList, name }) {
                 </div>
             </div>
 
-            <div className="
+            <div className={`
                 flex  justify-center items-center
                 h-32 px-2 py-4 w-1/5 
-            bg-red-300 rounded-md">
+             rounded-l-md
+            `}>
                 {taskList === Habits &&
 
                     <button

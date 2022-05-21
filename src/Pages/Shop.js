@@ -17,12 +17,6 @@ export default function Shop() {
     const [inputValue, setInputValue] = useState('')
 
 
-
-    let nameArray = [
-        'Basic Sword',
-        `Peasent's armor`,
-    ]
-
     useEffect(() => {
         dispatch({ type: 'SET_SHOP_ITEMS', payload: shopItems })
     }, [])
@@ -30,16 +24,12 @@ export default function Shop() {
     const searchForItem = () => {
         let newRegExp = new RegExp(inputValue, 'im')
         let searchArray = ((shopItems.filter((value) => newRegExp.test(value.name))))
-
-        console.log(searchArray)
-
         dispatch({ type: 'SET_SHOP_ITEMS', payload: searchArray })
     }
 
 
     const buyItem = (id, singleItem) => {
         dispatch({ type: 'BUY_ITEM', payload: id, item: singleItem })
-        console.log('clicked')
 
     }
 

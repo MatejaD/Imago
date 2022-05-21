@@ -37,6 +37,7 @@ export default function Habits({ taskList, name, placeholder }) {
                 name: inputValue,
                 id: new Date().getTime(),
                 isEditing: false,
+                isChecked: false,
                 counter: 0,
                 increasedValue: 0,
                 decreasedValue: 0,
@@ -78,9 +79,17 @@ export default function Habits({ taskList, name, placeholder }) {
                 className="text-field w-full resize-none   overflow-hidden px-2 py-3 flex mb-2 rounded-sm bg-gray-300 outline-none placeholder:text-gray-400 "
             />
 
-            {taskList.map((item) => {
-                return <Task key={item.id} item={item} taskList={taskList} name={name} />
-            })}
+            {taskList.length > 0 ?
+                taskList.map((item) => {
+                    return <Task key={item.id} item={item} taskList={taskList} name={name} />
+                })
+                :
+                <div className="w-full h-64 flex justify-center items-center text-2xl">
+                    <h2>
+                        Your {placeholder} list is empty..
+                    </h2>
+                </div>
+            }
 
         </form>
     )

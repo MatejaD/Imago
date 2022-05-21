@@ -73,6 +73,11 @@ const reducer = (state, action) => {
     return { ...state, coins: state.coins + action.payload }
   }
 
+  if (action.type === 'DECREASE_COINS') {
+    return { ...state, coins: state.coins - action.payload }
+  }
+
+
 
   if (action.type == 'TOGGLE_IS_EDITING') {
 
@@ -172,7 +177,6 @@ const reducer = (state, action) => {
       return { ...item, buyModal: false }
     })
 
-    console.log(state.inventory)
 
     return { ...state, shopItems: change }
   }
@@ -198,19 +202,38 @@ const reducer = (state, action) => {
         return item
       }
     })
-    console.log(action.payload)
 
     return { ...state, marketElements: change }
   }
 
-  // if (action.type === 'SEARCH') {
+  if (action.type === 'CHECK_DAILY_TASK') {
 
-  //   let change = state.shopItems.filter(value => action.payload.test(value))
+    let change = state.Daily_Tasks.map((item) => {
+      if (item.id === action.payload) {
+        return {
+          ...item, isChecked: !item.isChecked,
+          counter: item.isChecked ? item.counter - 1 : item.counter + 1,
+        }
+      }
+      else {
+        return item
+      }
+    })
 
-  //   console.log(action.payload)
+    console.log(change)
 
-  //   return { ...state, shopItems: change }
-  // }
+    return { ...state, Daily_Tasks: change, }
+  }
+
+  // EDITING TASK OPTIONS
+
+  if (action.type === 'DELETE_TASK') {
+
+    let change = action.list.filter((item) => item.id !== action.payload)
+
+    return { ...state, [action.name]: change }
+  }
+
 
   return state
 }
