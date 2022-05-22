@@ -46,8 +46,9 @@ const reducer = (state, action) => {
     return { ...state, name: action.payload }
   }
   if (action.type === 'SET_USER') {
-    return { ...state, currentUser: action.payload, userUID: 'TRUE' }
+    return { ...state, currentUser: action.payload }
   }
+
 
   if (action.type === 'SET_COINS') {
     return { ...state, coins: action.payload }
@@ -347,8 +348,8 @@ const initalState = {
     },
   ],
   currentUser: {
-    name: 'test',
-    email: 'tesst',
+    name: '',
+    email: '',
   },
   inventory: [],
   marketElements: [

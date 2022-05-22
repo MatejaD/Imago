@@ -87,7 +87,6 @@ export default function SignInBtn() {
                             },]
                         }, { merge: true })
                 }
-
                 localStorage.setItem('userUID', res.user.uid)
                 console.log(getUsersDoc.data())
 
