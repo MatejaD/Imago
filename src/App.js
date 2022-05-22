@@ -32,10 +32,18 @@ function App() {
   const lvl = useSelector(state => state.lvl)
   const health = useSelector(state => state.health)
   const maxHealth = useSelector(state => state.maxHealth)
+  const userUID = useSelector(state => state.userUID)
 
 
   // User doc
   let docRefUsers = doc(db, 'users', localStorage.getItem('userUID'))
+
+  useEffect(() => {
+    if (userUID) {
+      getUser()
+      getData()
+    }
+  }, [])
 
   const getData = async () => {
     const getUsersData = await getDoc(docRefUsers)
@@ -48,7 +56,7 @@ function App() {
     dispatch({ type: 'SET_MAX_EXP', payload: getUsersData.data().maxExp })
     dispatch({ type: 'SET_LVL', payload: getUsersData.data().lvl })
     dispatch({ type: 'SET_HEALTH', payload: getUsersData.data().health })
-    
+
 
 
     navigate('/home', { replace: false })
@@ -98,10 +106,7 @@ function App() {
     console.log(currentUser)
     setIsLoading(false)
   }
-  useEffect(() => {
-    getUser()
-    getData()
-  }, [])
+
 
   return (
     <>

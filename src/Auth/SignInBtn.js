@@ -22,6 +22,9 @@ export default function SignInBtn() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
+    localStorage.setItem('userUID', 'noID')
+
+
     const signInWithGoogle = async () => {
         await signInWithPopup(auth, provider)
             .then(async (res) => {

@@ -46,7 +46,7 @@ const reducer = (state, action) => {
     return { ...state, name: action.payload }
   }
   if (action.type === 'SET_USER') {
-    return { ...state, currentUser: action.payload }
+    return { ...state, currentUser: action.payload, userUID: 'TRUE' }
   }
 
   if (action.type === 'SET_COINS') {
