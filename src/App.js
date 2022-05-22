@@ -32,7 +32,6 @@ function App() {
 
 
   // User doc
-  let docRefUsers = doc(db, 'users', localStorage.getItem('userUID'))
 
   useEffect(() => {
     if (localStorage.getItem('userUID') !== 'noID') {
@@ -41,11 +40,15 @@ function App() {
     }
     else {
       localStorage.setItem('userUID', 'noID')
+      console.log('SET')
     }
 
   }, [localStorage.getItem('userUID')])
 
+
+
   const getData = async () => {
+    let docRefUsers = doc(db, 'users', localStorage.getItem('userUID'))
     const getUsersData = await getDoc(docRefUsers)
     dispatch({ type: 'SET_HABITS', payload: getUsersData.data().Habits })
     dispatch({ type: 'SET_DAILY_TASKS', payload: getUsersData.data().Daily_Tasks })
@@ -61,6 +64,7 @@ function App() {
 
   useEffect(() => {
     const levelUp = async () => {
+      let docRefUsers = doc(db, 'users', localStorage.getItem('userUID'))
       dispatch({ type: 'LEVEL_UP' })
       await updateDoc(docRefUsers, { maxExp: maxExp + 10, lvl: lvl + 1, exp: 0, health: 50 })
 
@@ -73,6 +77,9 @@ function App() {
 
   useEffect(() => {
     const death = async () => {
+
+      let docRefUsers = doc(db, 'users', localStorage.getItem('userUID'))
+
       await updateDoc(docRefUsers, { lvl: lvl, health: 50 })
       dispatch({ type: 'DEATH' })
     }
