@@ -39,7 +39,10 @@ function App() {
       getUser()
       getData()
     }
-  
+    else {
+      localStorage.setItem('userUID', 'noID')
+    }
+
   }, [localStorage.getItem('userUID')])
 
   const getData = async () => {
@@ -108,7 +111,7 @@ function App() {
           {showLvlUpModal && <LvlUpModal setShowLvlUpModal={setShowLvlUpModal} />}
           {isDead && <DeathModal setIsDead={setIsDead} />}
           <Routes>
-            <Route path="/" element={<LoginPage  />} />
+            <Route path="/" element={<LoginPage />} />
             <Route path="/home" element={<Home getData={getData} getUser={getUser} />} />
             <Route path="/shop" element={<Shop />} />
             <Route path="/inventory" element={<Inventory />} />
