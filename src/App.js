@@ -39,22 +39,19 @@ function App() {
       getUser()
       getData()
     }
-  }, [])
+  
+  }, [localStorage.getItem('userUID')])
 
   const getData = async () => {
     const getUsersData = await getDoc(docRefUsers)
     dispatch({ type: 'SET_HABITS', payload: getUsersData.data().Habits })
     dispatch({ type: 'SET_DAILY_TASKS', payload: getUsersData.data().Daily_Tasks })
     dispatch({ type: 'SET_TO_DO', payload: getUsersData.data().To_Do })
-    console.log(getUsersData.data().coins)
     dispatch({ type: 'SET_COINS', payload: getUsersData.data().coins })
     dispatch({ type: 'SET_EXP', payload: getUsersData.data().exp })
     dispatch({ type: 'SET_MAX_EXP', payload: getUsersData.data().maxExp })
     dispatch({ type: 'SET_LVL', payload: getUsersData.data().lvl })
     dispatch({ type: 'SET_HEALTH', payload: getUsersData.data().health })
-
-
-
     navigate('/home', { replace: false })
   }
 
@@ -93,13 +90,10 @@ function App() {
 
   const getUser = async () => {
     setIsLoading(true)
-    console.log(localStorage.getItem('userUID'))
     const userDoc = doc(db, 'users', localStorage.getItem('userUID'))
     const getUserDoc = await getDoc(userDoc)
-
     let data = getUserDoc.data()
     dispatch({ type: 'SET_USER', payload: data })
-    console.log(currentUser)
     setIsLoading(false)
   }
 
@@ -114,8 +108,8 @@ function App() {
           {showLvlUpModal && <LvlUpModal setShowLvlUpModal={setShowLvlUpModal} />}
           {isDead && <DeathModal setIsDead={setIsDead} />}
           <Routes>
-            <Route path="/" element={<LoginPage />} />
-            <Route path="/home" element={<Home />} />
+            <Route path="/" element={<LoginPage  />} />
+            <Route path="/home" element={<Home getData={getData} getUser={getUser} />} />
             <Route path="/shop" element={<Shop />} />
             <Route path="/inventory" element={<Inventory />} />
           </Routes>
