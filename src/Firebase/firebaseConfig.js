@@ -7,7 +7,6 @@ import { signInWithPopup, GoogleAuthProvider, getAuth } from 'firebase/auth'
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-localStorage.setItem('userUID', 'noID')
 
 const firebaseConfig = {
     apiKey: "AIzaSyAk2nCMXnE2lvJ4W8NazTALwSqHckfsCQQ",
