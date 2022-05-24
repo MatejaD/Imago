@@ -42,6 +42,9 @@ export default function Habits({ taskList, name, placeholder }) {
                 counter: 0,
                 increasedValue: 0,
                 decreasedValue: 0,
+                day: new Date().getDate(),
+                month: new Date().getMonth() + 1,
+                year: new Date().getFullYear()
             }
             dispatch({ type: 'ADD_TO_LIST', list: taskList, name: name, payload: item })
             sendInputToDB({ item })

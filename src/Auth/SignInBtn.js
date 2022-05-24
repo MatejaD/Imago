@@ -119,7 +119,6 @@ export default function SignInBtn() {
     return <button
         onClick={signInWithGoogle}
         className=" login-with-google-btn
-  
     ">
         Sign in With Google
     </button>;

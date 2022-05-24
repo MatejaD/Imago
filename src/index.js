@@ -16,6 +16,7 @@ import Navbar from './Components/Navbar';
 
 import sword from './Components/BasicSwordBig.png'
 import basicArmor from './Components/BasicArmorBig.png'
+import { act } from 'react-dom/test-utils';
 
 
 
@@ -235,6 +236,20 @@ const reducer = (state, action) => {
     return { ...state, Daily_Tasks: change, }
   }
 
+  if(action.type === 'UPDATE_DATE'){
+
+    let change = action.list.map((item) =>{
+      if(item.id === action.payload){
+        return {...item,day:action.day,month:action.month,year:action.year}
+      }
+      else{
+        return item
+      }
+    })
+
+    return {...state,[action.name]: change}
+  }
+
   // EDITING TASK OPTIONS
 
   if (action.type === 'EDIT_TASK') {
@@ -271,6 +286,7 @@ const reducer = (state, action) => {
 
     return { ...state, [action.name]: change }
   }
+
 
 
   return state
