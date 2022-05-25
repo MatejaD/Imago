@@ -57,23 +57,6 @@ export default function Navbar() {
 
   let docRefUsers = doc(db, "users", localStorage.getItem("userUID"))
 
-  const sendCoinsToDB = async () => {
-    await updateDoc(docRefUsers, { coins: coins + amount })
-    console.log(coins)
-  }
-
-  // const increaseCoins = () => {
-  //     dispatch({ type: 'INCREASE_COINS', payload: amount })
-  //     sendCoinsToDB()
-  //     console.log(maxExp)
-  //     navigate('/home', { replace: false })
-  // }
-
-  const setAvatarImg = async (image) => {
-    dispatch({ type: "SET_AVATAR", payload: image })
-    await updateDoc(docRefUsers, { avatarImg: image })
-  }
-
   const logout = () => {
     signOut(auth)
       .then(() => {
@@ -94,7 +77,6 @@ export default function Navbar() {
       <nav className="w-full h-1/4 flex justify-between items-center bg-blue-500">
         <div className="flex justify-start items-center h-full w-1/3 px-10">
           <img
-            onClick={() => setAvatarImg(characterEmoBasicArmor)}
             className="rounded-full w-4 h-4 bg-blue-400"
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFBGtT23Evq7dNpUdwP8fXnWY2DseIuYpnp-RFWSX1WAyhFpJc&s"
             alt=""

@@ -2,6 +2,17 @@ import React, { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import Sidebar from "../Components/Sidebar"
 import { RiMoneyDollarBoxFill } from "react-icons/ri"
+// Firebase
+import { updateDoc, doc } from "firebase/firestore"
+import { db } from "../Firebase/firebaseConfig"
+// Images
+import CharacterEmo from "../Components/CharacterEmo.png"
+import character from "../Components/CharacterEmo.png"
+import CharacterEmo_BasicArmor from "../Components/CharacaterEmo-BasicArmor.png"
+import CharacterEmo_BasicSword from "../Components/CharacterEmo-BasicSword.png"
+import CharacterEmo_BasicArmorSword from "../Components/CharacterEmo_BasicArmorSword.png"
+import sword from "../Components/BasicSwordBig.png"
+import armor from "../Components/BasicArmorBig.png"
 
 export default function Inventroy() {
   const [inputValue, setInputValue] = useState("")
@@ -9,11 +20,58 @@ export default function Inventroy() {
   const dispatch = useDispatch()
 
   const inventory = useSelector((state) => state.inventory)
+  const avatarImg = useSelector((state) => state.avatarImg)
+
+  const [savedAvatarImg, setSavedAvatarImg] = useState(false)
 
   const searchForItem = () => {
     let newRegExp = new RegExp(inputValue, "im")
     let searchArray = inventory.filter((value) => newRegExp.test(value.name))
     dispatch({ type: "SET_INVENTORY_ITEMS", payload: searchArray })
+  }
+
+  console.log(avatarImg)
+  const docRefUsers = doc(db, "users", localStorage.getItem("userUID"))
+  const setAvatarImg = async (usersImg, image) => {
+    if (usersImg === character) {
+      if (image === sword) {
+        dispatch({
+          type: "SET_AVATAR",
+          payload: CharacterEmo_BasicSword,
+        })
+        await updateDoc(docRefUsers, {
+          avatarImg: CharacterEmo_BasicSword,
+        })
+      }
+    }
+    if (usersImg === CharacterEmo_BasicSword) {
+      if (image === sword) {
+        dispatch({
+          type: "SET_AVATAR",
+          payload: character,
+        })
+        await updateDoc(docRefUsers, {
+          avatarImg: character,
+        })
+      }
+    }
+    if (
+      // usersImg === CharacterEmo_BasicArmor ||
+      usersImg === CharacterEmo_BasicSword
+    ) {
+      if (image === sword) {
+        dispatch({ type: "SET_AVATAR", payload: CharacterEmo_BasicSword })
+        await updateDoc(docRefUsers, { avatarImg: CharacterEmo_BasicSword })
+        console.log("USER IMG")
+      }
+      if (image === armor) {
+        dispatch({ type: "SET_AVATAR", payload: CharacterEmo_BasicArmorSword })
+        await updateDoc(docRefUsers, {
+          avatarImg: CharacterEmo_BasicArmorSword,
+        })
+        console.log("USER IMG")
+      }
+    }
   }
 
   return (
@@ -33,10 +91,7 @@ export default function Inventroy() {
               <div
                 key={singleItem.id}
                 onClick={() => {
-                  dispatch({
-                    type: "OPEN_BUY_MODAL",
-                    payload: singleItem.id,
-                  })
+                  setAvatarImg(avatarImg, singleItem.img)
                 }}
                 className="item-container w-2/12 h-3/5   rounded-md relative overflow-hidden flex shrink-0 flex-col justify-center items-center"
               >
