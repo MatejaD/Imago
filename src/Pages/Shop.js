@@ -7,6 +7,8 @@ import { RiMoneyDollarBoxFill } from "react-icons/ri"
 import { BiSearchAlt } from "react-icons/bi"
 import Sidebar from "../Components/Sidebar"
 import { useNavigate } from "react-router-dom"
+import { updateDoc, doc } from "firebase/firestore"
+import { db } from "../Firebase/firebaseConfig"
 
 export default function Shop() {
   const dispatch = useDispatch()
@@ -18,6 +20,8 @@ export default function Shop() {
   const [showModal, setShowModal] = useState(false)
   const navigate = useNavigate()
 
+  const userDoc = doc(db, "users", localStorage.getItem("userUID"))
+
   useEffect(() => {
     dispatch({ type: "SET_SHOP_ITEMS", payload: shopItems })
   }, [shopItems, showModal])
@@ -28,8 +32,12 @@ export default function Shop() {
     dispatch({ type: "SET_SHOP_ITEMS", payload: searchArray })
   }
 
-  const buyItem = (id, singleItem) => {
+  const buyItem = async (id, singleItem) => {
     dispatch({ type: "BUY_ITEM", payload: id, item: singleItem })
+    await updateDoc(userDoc, {
+      shopItems: shopItems.filter((item) => item.id !== id),
+      inventory: inventory.concat(singleItem),
+    })
   }
 
   return (
@@ -92,11 +100,7 @@ export default function Shop() {
                             </div>
                             <button
                               onClick={() => {
-                                dispatch({
-                                  type: "BUY_ITEM",
-                                  payload: singleItem.id,
-                                  item: singleItem,
-                                })
+                                buyItem(singleItem.id, singleItem)
                               }}
                               className=" text-white w-1/2 h-12 bg-blue-600 rounded-md shadow-md shadow-blue-800"
                             >

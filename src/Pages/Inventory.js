@@ -43,6 +43,16 @@ export default function Inventroy() {
           avatarImg: CharacterEmo_BasicSword,
         })
       }
+
+      if (image === armor) {
+        dispatch({
+          type: "SET_AVATAR",
+          payload: CharacterEmo_BasicArmor,
+        })
+        await updateDoc(docRefUsers, {
+          avatarImg: CharacterEmo_BasicArmor,
+        })
+      }
     }
     if (usersImg === CharacterEmo_BasicSword) {
       if (image === sword) {
@@ -54,21 +64,49 @@ export default function Inventroy() {
           avatarImg: character,
         })
       }
-    }
-    if (
-      // usersImg === CharacterEmo_BasicArmor ||
-      usersImg === CharacterEmo_BasicSword
-    ) {
-      if (image === sword) {
-        dispatch({ type: "SET_AVATAR", payload: CharacterEmo_BasicSword })
-        await updateDoc(docRefUsers, { avatarImg: CharacterEmo_BasicSword })
-        console.log("USER IMG")
-      }
+
       if (image === armor) {
-        dispatch({ type: "SET_AVATAR", payload: CharacterEmo_BasicArmorSword })
+        dispatch({
+          type: "SET_AVATAR",
+          payload: CharacterEmo_BasicArmorSword,
+        })
         await updateDoc(docRefUsers, {
           avatarImg: CharacterEmo_BasicArmorSword,
         })
+      }
+    }
+    if (usersImg === CharacterEmo_BasicArmor) {
+      if (image === sword) {
+        dispatch({
+          type: "SET_AVATAR",
+          payload: CharacterEmo_BasicArmorSword,
+        })
+        await updateDoc(docRefUsers, {
+          avatarImg: CharacterEmo_BasicArmorSword,
+        })
+      }
+
+      if (image === armor) {
+        dispatch({
+          type: "SET_AVATAR",
+          payload: CharacterEmo,
+        })
+        await updateDoc(docRefUsers, {
+          avatarImg: CharacterEmo,
+        })
+      }
+    }
+
+    if (usersImg === CharacterEmo_BasicArmorSword) {
+      if (image === sword) {
+        dispatch({ type: "SET_AVATAR", payload: CharacterEmo_BasicArmor })
+        await updateDoc(docRefUsers, { avatarImg: CharacterEmo_BasicArmor })
+        console.log("USER IMG")
+      }
+
+      if (image === armor) {
+        dispatch({ type: "SET_AVATAR", payload: CharacterEmo_BasicSword })
+        await updateDoc(docRefUsers, { avatarImg: CharacterEmo_BasicSword })
         console.log("USER IMG")
       }
     }

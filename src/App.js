@@ -63,6 +63,8 @@ function App() {
     dispatch({ type: "SET_LVL", payload: getUsersData.data().lvl })
     dispatch({ type: "SET_HEALTH", payload: getUsersData.data().health })
     dispatch({ type: "SET_IMG", payload: getUsersData.data().avatarImg })
+    dispatch({ type: "SET_INVENTORY", payload: getUsersData.data().inventory })
+    dispatch({ type: "SET_SHOPITEMS", payload: getUsersData.data().shopItems })
 
     navigate("/home", { replace: false })
   }

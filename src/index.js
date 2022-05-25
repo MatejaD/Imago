@@ -68,6 +68,14 @@ const reducer = (state, action) => {
     return { ...state, health: action.payload }
   }
 
+  if (action.type === "SET_INVENTORY") {
+    return { ...state, inventory: action.payload }
+  }
+
+  if (action.type === "SET_SHOPITEMS") {
+    return { ...state, shopItems: action.payload }
+  }
+
   if (action.type === "INCREASE_COINS") {
     return { ...state, coins: state.coins + action.payload }
   }
