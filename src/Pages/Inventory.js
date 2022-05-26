@@ -114,7 +114,7 @@ export default function Inventroy() {
   }
 
   return (
-    <div className="w-full min-h-full flex justify-start items-start ">
+    <div className="w-full min-h-full flex justify-center items-center ">
       {/* <Sidebar
         inputValue={inputValue}
         setInputValue={setInputValue}
