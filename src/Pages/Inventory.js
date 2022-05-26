@@ -115,11 +115,11 @@ export default function Inventroy() {
 
   return (
     <div className="w-full min-h-full flex justify-start items-start ">
-      <Sidebar
+      {/* <Sidebar
         inputValue={inputValue}
         setInputValue={setInputValue}
         searchForItem={searchForItem}
-      />
+      /> */}
       <div
         key={"container"}
         className="md:w-10/12 w-4/6 mr-2 min-h-screen flex flex-col justify-start gap-16 items-start p-8 bg-blue-100 border-l-2 border-r-2 border-black"
