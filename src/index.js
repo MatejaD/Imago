@@ -197,9 +197,10 @@ const reducer = (state, action) => {
     let close_modal = state.shopItems.map((item) => {
       return { ...item, buyModal: false }
     })
-    let remove_bought_item = close_modal.filter(
-      (item) => item.id !== action.payload
-    )
+    let remove_bought_item =
+      state.shopItems.length >= 2
+        ? close_modal.filter((item) => item.id !== action.payload)
+        : []
 
     console.log(remove_bought_item)
 
@@ -207,6 +208,7 @@ const reducer = (state, action) => {
       ...state,
       inventory: state.inventory.concat(action.item),
       shopItems: remove_bought_item,
+      coins: state.coins - action.item.price,
     }
   }
 

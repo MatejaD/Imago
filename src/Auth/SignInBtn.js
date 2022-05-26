@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 
 // Firebase
 import { db, auth, provider } from "../Firebase/firebaseConfig"
@@ -20,10 +20,10 @@ import sword from "../Components/BasicSwordBig.png"
 import basicArmor from "../Components/BasicArmorBig.png"
 import character from "../Components/CharacterEmo.png"
 
-export default function SignInBtn() {
+export default function SignInBtn({ getData, getUser }) {
   const usersDB = collection(db, "users")
   const currentUser = useSelector((state) => state.currentUser)
-
+  const [isLoading, setIsLoading] = useState(false)
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -158,7 +158,6 @@ export default function SignInBtn() {
         console.log(getUsersDoc.data())
 
         if (getUsersDoc.data()) {
-          console.log("skr")
           // localStorage.setItem('cities', JSON.stringify(getUsersDoc.data().cities))
           // localStorage.setItem('coins', JSON.stringify(getUsersDoc.data().coins))
         } else {
@@ -167,6 +166,8 @@ export default function SignInBtn() {
         }
 
         dispatch({ type: "SET_NAME", payload: res.user.displayName })
+        getData()
+        getUser()
         navigate("/home", { replace: true })
       })
       .catch(async (error) => {

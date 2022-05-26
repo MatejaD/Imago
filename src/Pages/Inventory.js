@@ -34,6 +34,7 @@ export default function Inventroy() {
   const docRefUsers = doc(db, "users", localStorage.getItem("userUID"))
   const setAvatarImg = async (usersImg, image) => {
     if (usersImg === character) {
+      console.log(sword)
       if (image === sword) {
         dispatch({
           type: "SET_AVATAR",
@@ -121,9 +122,9 @@ export default function Inventroy() {
       />
       <div
         key={"container"}
-        className="w-10/12 mr-2 min-h-screen flex flex-col justify-start gap-16 items-start p-8 bg-blue-100 border-l-2 border-r-2 border-black"
+        className="md:w-10/12 w-4/6 mr-2 min-h-screen flex flex-col justify-start gap-16 items-start p-8 bg-blue-100 border-l-2 border-r-2 border-black"
       >
-        <div className="flex flex-wrap relative cursor-pointer justify-start items-end bg-blue-100 px-4 gap-y-8 gap-x-16  w-full min-h-64 ">
+        <div className="flex flex-wrap flex-col md:flex-row relative cursor-pointer justify-start items-start md:items-end bg-blue-100 px-4 gap-y-8 gap-x-16  w-full min-h-64 ">
           {inventory.map((singleItem) => {
             return (
               <div
@@ -131,7 +132,7 @@ export default function Inventroy() {
                 onClick={() => {
                   setAvatarImg(avatarImg, singleItem.img)
                 }}
-                className="item-container w-2/12 h-3/5   rounded-md relative overflow-hidden flex shrink-0 flex-col justify-center items-center"
+                className="item-container  lg:w-2/12 w-32 h-32  lg:h-3/5   rounded-md relative overflow-hidden flex shrink-0 flex-col justify-center items-center"
               >
                 <img
                   className="  w-full rounded-md"
@@ -145,8 +146,8 @@ export default function Inventroy() {
                   </span>
                 </div>
 
-                <div className="item-text flex flex-col rounded-sm justify-start items-center gap-8 w-full px-4 py-2  h-full absolute bg-black bg-opacity-80   ">
-                  <h2 className="w-full text-white text-lg text-center ">
+                <div className="item-text flex flex-col rounded-sm justify-start items-center md:gap-2 w-full px-4 py-2  h-full absolute bg-black bg-opacity-80   ">
+                  <h2 className="w-full text-white md:text-lg text-sm text-center ">
                     {singleItem.name}
                   </h2>
                   <p className="text-sm w-full h-1/2 text-center text-white">

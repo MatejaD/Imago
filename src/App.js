@@ -44,9 +44,8 @@ function App() {
       getData()
     } else {
       localStorage.setItem("userUID", "noID")
-      console.log("SET")
     }
-  }, [localStorage.getItem("userUID")])
+  }, [])
 
   const getData = async () => {
     let docRefUsers = doc(db, "users", localStorage.getItem("userUID"))
@@ -123,11 +122,11 @@ function App() {
           )}
           {isDead && <DeathModal setIsDead={setIsDead} />}
           <Routes>
-            <Route path="/" element={<LoginPage />} />
             <Route
-              path="/home"
-              element={<Home getData={getData} getUser={getUser} />}
+              path="/"
+              element={<LoginPage getData={getData} getUser={getUser} />}
             />
+            <Route path="/home" element={<Home />} />
             <Route path="/shop" element={<Shop />} />
             <Route path="/inventory" element={<Inventory />} />
           </Routes>

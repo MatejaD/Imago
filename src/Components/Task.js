@@ -224,7 +224,7 @@ export default function Task({
               // onClick={() => dispatch({ type: 'EDIT_TASK', payload: item.id, name: name, list: taskList })}
               className="fixed top-0 left-0 z-20 w-screen h-screen flex justify-center items-center bg-black bg-opacity-75"
             >
-              <div className="relative px-4 w-1/3 h-5/6 flex justify-start gap-6 flex-col items-center  bg-slate-50 z-30">
+              <div className="relative px-4 w-4/6 md:w-3/6 lg:w-2/6 h-4/5 md:h-5/6  flex justify-start gap-6 flex-col items-center  bg-slate-50 z-30">
                 <div className="w-full h-12 flex justify-end items-start p-2 gap-4">
                   <button
                     type="button"
@@ -236,14 +236,14 @@ export default function Task({
                         list: taskList,
                       })
                     }
-                    className="w-1/5 h-10 bg-red-500 rounded-md"
+                    className="md:w-1/5 w-1/4 h-10 bg-red-500  rounded-md"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={() => handleSubmit(item.id)}
                     type="submit"
-                    className="w-1/5 h-10 bg-blue-600 rounded-md"
+                    className="md:w-1/5 w-1/4 h-10 bg-blue-600 rounded-md"
                   >
                     Submit
                   </button>
@@ -278,7 +278,7 @@ export default function Task({
                     <>
                       <Calendar
                         className={` absolute select-none -bottom-4 z-10 w-full text-lg  h-2   grid `}
-                        tileClassName={`bg-slate-200 border border-black w-10 h-10 `}
+                        tileClassName={`bg-slate-200 border border-black w-6 h-6 md:h-8 md:w-8 lg:h-10 lg:w-10 `}
                         minDetail="decade"
                         view="month"
                         prev2Label=""

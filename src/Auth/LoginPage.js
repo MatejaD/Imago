@@ -16,7 +16,7 @@ import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore"
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
 
-export default function LoginPage() {
+export default function LoginPage({ getData, getUser }) {
   // Register
   const [usernameReg, setUsernameReg] = useState("")
   const [emailReg, setEmailReg] = useState("")
@@ -44,7 +44,6 @@ export default function LoginPage() {
         )
         console.log(user)
         let usersDoc = doc(db, "users", user.user.uid)
-        let getUsersDoc = await getDoc(usersDoc)
         await setDoc(
           usersDoc,
           {
@@ -69,6 +68,64 @@ export default function LoginPage() {
             maxExp: 100,
             lvl: 1,
             inventory: [],
+            shopItems: [
+              {
+                img: basicArmor,
+                name: `Peasent's armor`,
+                desc: "At least it doesnt have any holes.",
+                price: 70,
+                buyModal: false,
+                id: 1557,
+                value: "Armor",
+              },
+              {
+                img: basicArmor,
+                name: `Peasent's armor`,
+                desc: "At least it doesnt have any holes.",
+                price: 70,
+                buyModal: false,
+                id: 1432,
+                value: "Armor",
+              },
+
+              {
+                img: basicArmor,
+                name: `Peasent's armor`,
+                desc: "At least it doesnt have any holes.",
+                price: 70,
+                buyModal: false,
+                id: 12143,
+                value: "Armor",
+              },
+
+              {
+                img: sword,
+                name: "Basic Sword",
+                desc: `It's not much, but its honest work.`,
+                price: 45,
+                buyModal: false,
+                id: 1,
+                value: "Swords",
+              },
+              {
+                img: sword,
+                name: "Stone Sword",
+                desc: `It's not much, but its honest work.`,
+                price: 45,
+                buyModal: false,
+                id: 2,
+                value: "Swords",
+              },
+              {
+                img: sword,
+                name: "Super sword",
+                desc: `It's not much, but its honest work.`,
+                price: 45,
+                buyModal: false,
+                id: 5,
+                value: "Swords",
+              },
+            ],
             marketElements: [
               {
                 name: "Armor",
@@ -105,7 +162,8 @@ export default function LoginPage() {
           { merge: true }
         )
         localStorage.setItem("userUID", user.user.uid)
-
+        getData()
+        getUser()
         dispatch({ type: "SET_NAME", payload: usernameReg })
         navigate("/home", { replace: true })
       }
@@ -127,6 +185,8 @@ export default function LoginPage() {
       const user = await signInWithEmailAndPassword(auth, emailLog, passwordLog)
       console.log(user)
       localStorage.setItem("userUID", user.user.uid)
+      getData()
+      getUser()
       navigate("/home", { replace: true })
     } catch (error) {
       console.log(error.message)
@@ -147,21 +207,7 @@ export default function LoginPage() {
       <h1 className="absolute top-8 md:text-4xl text-2xl text-green-200">
         Welcome to Imago!
       </h1>
-      <p className="absolute lg:block hidden top-36 text-sm right-20 rotate-45">
-        Lets grow together
-      </p>
 
-      <p className="absolute lg:block hidden top-36 text-sm left-24 -rotate-12">
-        Improve with us!
-      </p>
-
-      <p className="absolute lg:block hidden bottom-36 text-sm left-10 rotate-6">
-        Aim for the Moon!
-      </p>
-
-      <p className="absolute lg:block hidden bottom-64 text-sm right-10 rotate-6">
-        To the Top!!!
-      </p>
       <div className="lg:w-2/6 md:w-2/4 w-4/5 h-10 flex items-center justify-center gap-20 bg-slate-200 rounded-t-md">
         <button
           onClick={() => setIsSigningIn(true)}
@@ -241,7 +287,7 @@ export default function LoginPage() {
             {isSigningIn ? "Sign up" : "Log in"}
           </button>
         </div>
-        <SignInBtn />
+        <SignInBtn getData={getData} getUser={getUser} />
       </div>
     </div>
   )

@@ -15,7 +15,9 @@ export default function Shop() {
 
   const shopItems = useSelector((state) => state.shopItems)
   const inventory = useSelector((state) => state.inventory)
+  const coins = useSelector((state) => state.coins)
   const marketElements = useSelector((state) => state.marketElements)
+  const [message, setMessage] = useState(false)
   const [inputValue, setInputValue] = useState("")
   const [showModal, setShowModal] = useState(false)
   const navigate = useNavigate()
@@ -33,11 +35,19 @@ export default function Shop() {
   }
 
   const buyItem = async (id, singleItem) => {
-    dispatch({ type: "BUY_ITEM", payload: id, item: singleItem })
-    await updateDoc(userDoc, {
-      shopItems: shopItems.filter((item) => item.id !== id),
-      inventory: inventory.concat(singleItem),
-    })
+    if (coins >= singleItem.price) {
+      dispatch({ type: "BUY_ITEM", payload: id, item: singleItem })
+      await updateDoc(userDoc, {
+        shopItems: shopItems.filter((item) => item.id !== id),
+        inventory: inventory.concat(singleItem),
+        coins: coins - singleItem.price,
+      })
+    } else {
+      setMessage(true)
+      setTimeout(() => {
+        setMessage(false)
+      }, 2000)
+    }
   }
 
   return (
@@ -52,7 +62,7 @@ export default function Shop() {
       />
       <div
         key={"container"}
-        className="w-10/12 mr-2 min-h-screen flex flex-col justify-start gap-16 items-start p-4 bg-blue-100 border-l-2 border-r-2 border-black"
+        className="md:w-10/12 w-4/6 mr-2 min-h-screen flex flex-col justify-start gap-16 items-start p-4 bg-blue-100 border-l-2 border-r-2 border-black"
       >
         <h1 className="text-3xl after:block ">Market</h1>
         {marketElements.map((item, index) => {
@@ -70,7 +80,7 @@ export default function Shop() {
                         <>
                           <div
                             key={singleItem.id}
-                            className="w-2/6 h-2/3 cursor-default rounded-md flex flex-col text-xl p-4 gap-2 justify-evenly items-center fixed z-20  top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-slate-50"
+                            className="lg:w-2/6 md:w-3/6 w-4/6 h-2/3 cursor-default rounded-md flex flex-col text-xl p-4 gap-2 justify-evenly items-center fixed z-20  top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-slate-50"
                           >
                             <div className="w-full h-1/2 flex justify-center items-center flex-col">
                               <button
@@ -81,6 +91,7 @@ export default function Shop() {
                               >
                                 Close
                               </button>
+
                               <img
                                 className="  w-1/2 rounded-md"
                                 src={singleItem.img}
@@ -106,6 +117,12 @@ export default function Shop() {
                             >
                               Buy
                             </button>
+
+                            {message && (
+                              <p className="h-10 absolute bottom-0  text-red-500 text-sm">
+                                You dont have enough coins..
+                              </p>
+                            )}
                           </div>
 
                           <div
@@ -127,7 +144,7 @@ export default function Shop() {
                             payload: singleItem.id,
                           })
                         }}
-                        className="item-container w-2/12 h-3/5   rounded-md relative overflow-hidden flex shrink-0 flex-col justify-center items-center"
+                        className="item-container lg:w-2/12 w-32 h-32  lg:h-3/5   rounded-md relative overflow-hidden flex shrink-0 flex-col justify-center items-center"
                       >
                         <img
                           className="  w-full rounded-md"
@@ -141,8 +158,8 @@ export default function Shop() {
                           </span>
                         </div>
 
-                        <div className="item-text flex flex-col rounded-sm justify-start items-center gap-8 w-full px-4 py-2  h-full absolute bg-black bg-opacity-80   ">
-                          <h2 className="w-full text-white text-lg text-center ">
+                        <div className="item-text flex flex-col rounded-sm justify-start items-center lg:gap-8 gap-2 w-full px-4 py-2  h-full absolute bg-black bg-opacity-80   ">
+                          <h2 className="w-full text-white lg:text-lg  text-sm text-center ">
                             {singleItem.name}
                           </h2>
                           <p className="text-sm w-full h-1/2 text-center text-white">

@@ -75,20 +75,15 @@ export default function Navbar() {
   return (
     <nav className="w-full h-64 rounded-b-md  bg-blue-700 flex flex-col justify-start items-start">
       <nav className="w-full h-1/4 flex justify-between items-center bg-blue-500">
-        <div className="flex justify-start items-center h-full w-1/3 px-10">
-          <img
-            className="rounded-full w-4 h-4 bg-blue-400"
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFBGtT23Evq7dNpUdwP8fXnWY2DseIuYpnp-RFWSX1WAyhFpJc&s"
-            alt=""
-          />
+        <div className="flex justify-start items-center h-full w-1/3 px-1 md:px-10">
           <span className="px-4 text-xl font-bold">Imago</span>
         </div>
-        <ul className="h-full w-1/3 flex justify-around items-center ">
+        <ul className="h-full w-2/3 md:w-1/3 flex justify-around items-center ">
           {links.map((link) => {
             return (
               <li
                 onClick={() => navigate(link.to, { replace: true })}
-                className="text-lg font-semibold cursor-pointer"
+                className="text-md md:text-lg font-semibold cursor-pointer"
                 key={link.id}
               >
                 {" "}
@@ -97,12 +92,15 @@ export default function Navbar() {
             )
           })}
         </ul>
-        <div className="h-full w-1/3 flex justify-end items-center gap-12  px-10">
+        <div
+          className="h-full w-40 md:w-1/3 flex justify-end items-center md:gap-12  
+        px-4 gap-2 md:px-10"
+        >
           <div className="flex w-16 justify-center items-center gap-1.5">
-            <span className="text-yellow-400 text-4xl">
+            <span className="text-yellow-400 text-2xl md:text-4xl">
               <RiMoneyDollarBoxFill />
             </span>
-            <span className="text-lg">{coins}</span>
+            <span className=" md:text-lg">{coins}</span>
           </div>
           <button className="cursor-pointer" onClick={() => logout()}>
             Logout
@@ -113,12 +111,12 @@ export default function Navbar() {
         <div className="w-36 h-full relative flex justify-center items-center bg-black bg-opacity-40 border-2 border-black   rounded-md">
           <img className="w-full" src={avatarImg} alt="" />
         </div>
-        <div className="h-full w-3/12 flex flex-col p-2 justify-center items-center gap-2 ">
+        <div className="h-full w-2/3 md:w-2/5 lg:w-4/12  flex flex-col p-2 justify-center items-center gap-2 ">
           <div className="w-full h-1/3 flex  justify-center gap-4 items-start">
-            <h2 className="text-xl text-center text-black font-bold ">
+            <h2 className="md:text-xl text-center text-black font-bold ">
               {name}
             </h2>
-            <p className="text-lg text-center text-black ">lvl {lvl}</p>
+            <p className="md:text-lg text-center text-black ">lvl {lvl}</p>
           </div>
 
           <div className="w-full h-1/3 flex justify-center gap-4 items-center ">
